@@ -1,0 +1,88 @@
+*{
+margin: 0;
+padding: 0;
+}
+body{
+    background-image: url(REVISI2.png);
+}
+.judul{
+    display: grid;
+    place-items: center;
+    padding: 10px 5px;
+  background-image: url(bgputih.jpg);
+    border-color: rgb(124, 28, 75);
+    overflow: hidden;
+    white-space: nowrap;
+    
+}
+.judul H1{
+    text-align: center;
+    justify-content: center;
+    color: rgb(129, 98, 195);
+   
+    
+}
+.judul p{
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+    color: rgb(233, 6, 135);
+    margin-top: 20px;
+    font-size: 18px;
+}
+.login{
+    margin-top: 105px;
+    margin-bottom: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login button{
+  justify-content: center;
+  margin-top: 75px;
+  padding: 20px 90px;
+  border-radius: 15px;
+  border: 2px solid rgb(79, 51, 146);
+  background-color: rgb(243, 230, 236);
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.5s ease-in-out;
+}
+
+button:hover{
+    letter-spacing: 0.30em;
+    transform: scale(1.015);
+    box-shadow: none;
+
+}
+
+.footer{
+    background-color: white;
+    margin: 0;
+    text-align: center;
+    padding: 15px;
+    
+}
+
+.footer h3{
+  margin-top: 15px;
+    text-align: center;
+    color: #5a1227;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: footer 30s linear infinite;
+}
+@keyframes footer{  /*untuk koding animaziee*/
+    50% {
+        transform: translateX(-100%); /*kanan*/
+      }
+    100% {
+        transform: translateX(-100%); /*kiri*/
+      }
+      0% {
+        transform: translateX(100%); /*tgh*/
+      }
+   
+    
+  
+    }
