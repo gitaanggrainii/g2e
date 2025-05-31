@@ -15,13 +15,19 @@ if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
 
     // Verifikasi password (plain text)
-    if (password_verify($password, $user['password'])) {    
+    if (password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['email'] = $user['email'];
-        $_SESSION['alamat'] = $user['alamat']; // opsional, jika kolom ini ada
+        $_SESSION['alamat'] = $user['alamat']; // opsional
+        $_SESSION['role'] = $user['role'];     // tambahkan ini
 
-        header("Location: profile.php");
+        // Arahkan berdasarkan role
+        if ($user['role'] === 'admin') {
+            header("Location: admin.php");
+        } else {
+            header("Location: profile.php"); // atau ../user/home.php jika kamu punya
+        }
         exit;
     } else {
         echo "<script>alert('Password salah!'); window.location.href='login.php';</script>";
