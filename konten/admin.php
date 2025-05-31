@@ -1,10 +1,4 @@
-<?php
-session_start();
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
-    exit();
-}
-?>
+
     <form action="simpan_produk.php" method="POST" enctype="multipart/form-data" 
       style="max-width: 500px; margin: 30px auto; padding: 30px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; font-family: Arial, sans-serif;">
     
