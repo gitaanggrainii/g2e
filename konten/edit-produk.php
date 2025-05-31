@@ -16,23 +16,56 @@ if (isset($_POST['update'])) {
 }
 ?>
 
-<h3>Edit Produk</h3>
-<form method="POST" >
-  <div class="mb-3">
-    <label>Nama Produk</label>
-    <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($data['name']) ?>" required>
-  </div><br>
-  <div class="mb-3">
-    <label>Kategori</label>
-    <input type="text" name="kategori_id" class="form-control" value="<?= htmlspecialchars($data['kategori_id']) ?>" required>
-  </div><br>
-  <div class="mb-3">
-    <label>Harga</label>
-    <input type="number" name="price" class="form-control" value="<?= $data['price'] ?>" required>
-  </div><br>
-  <div class="mb-3">
-    <label>Deskripsi</label>
-    <textarea name="description" class="form-control" required><?= htmlspecialchars($data['description']) ?></textarea>
-  </div><br>
-  <button type="submit" name="update" class="btn btn-primary">Simpan Perubahan</button>
+<h3 style="text-align: center; font-family: Arial, sans-serif;">Edit Produk</h3>
+
+<form method="POST" 
+  style="max-width: 600px; margin: 30px auto; padding: 30px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; font-family: Arial, sans-serif;">
+
+  <table style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td style="padding: 10px;"><label>Nama Produk:</label></td>
+      <td style="padding: 10px;">
+        <input type="text" name="name" required 
+               value="<?= htmlspecialchars($data['name']) ?>"
+               style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding: 10px;"><label>Kategori:</label></td>
+      <td style="padding: 10px;">
+        <input type="text" name="kategori_id" required 
+               value="<?= htmlspecialchars($data['kategori_id']) ?>"
+               style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding: 10px;"><label>Harga:</label></td>
+      <td style="padding: 10px;">
+        <input type="number" name="price" required 
+               value="<?= $data['price'] ?>"
+               style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding: 10px;"><label>Deskripsi:</label></td>
+      <td style="padding: 10px;">
+        <textarea name="description" required 
+                  style="width: 100%; padding: 10px; height: 100px; border-radius: 5px; border: 1px solid #ccc;"><?= htmlspecialchars($data['description']) ?></textarea>
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td style="padding: 10px;">
+        <button type="submit" name="update" 
+                style="padding: 10px 20px; background-color: black; color: #fff; border: none; border-radius: 5px; cursor: pointer;">
+          Simpan Perubahan
+        </button>
+      </td>
+    </tr>
+  </table>
 </form>
+

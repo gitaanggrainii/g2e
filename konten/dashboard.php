@@ -42,13 +42,20 @@
 
 <div class="content">
   <?php
-    if (isset($_GET['page']) && $_GET['page'] === 'daftar') {
-      include 'daftar-produk.php';
+    if (isset($_GET['page'])) {
+      if ($_GET['page'] === 'daftar') {
+        include 'daftar-produk.php';
+      } elseif ($_GET['page'] === 'edit') {
+        include 'edit-produk.php';
+      } else {
+        include 'admin.php';
+      }
     } else {
       include 'admin.php';
     }
   ?>
 </div>
+
 
 </body>
 </html>
