@@ -11,7 +11,7 @@ if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit;
 }
-include '../header/header_haircare.php'; ?>
+include '../header/header_haircare.php' ; ?>
     <main class="isi">
         <div class="deskripsi">
             <h2>START YOUR BEAUTY JOURNEY</h2>
