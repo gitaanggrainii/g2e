@@ -5,7 +5,7 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 $isLoggedIn = isset($_SESSION['user_id']); // Ubah sesuai nama session login kamu
-include '../header/header_makeup.php'; ?>
+include '../header/header.php'; ?>
     <main class="isi">
         <div class="deskripsi">
             <h2>START YOUR BEAUTY JOURNEY</h2>
