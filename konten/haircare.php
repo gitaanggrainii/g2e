@@ -4,13 +4,6 @@ include '../konten/koneksi.php';
 // Ambil semua produk dengan kategori_id 1 (makeup)
 $query = "SELECT * FROM products WHERE kategori_id = 3";
 $result = mysqli_query($conn, $query);
-?>
-<?php
-session_start();
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
-    exit;
-}
 include '../header/header_haircare.php' ; ?>
     <main class="isi">
         <div class="deskripsi">

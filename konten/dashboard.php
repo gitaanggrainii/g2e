@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['email' ]) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
@@ -45,24 +45,35 @@ if (!isset($_SESSION['email' ]) || $_SESSION['role'] !== 'admin') {
   <h4 class="text-center">Dashboard Admin</h4>
   <a href="?page=kelola" class="<?= !isset($_GET['page']) || $_GET['page'] === 'kelola' ? 'active' : '' ?>">Tambah Produk</a>
   <a href="?page=daftar" class="<?= isset($_GET['page']) && $_GET['page'] === 'daftar' ? 'active' : '' ?>">Daftar Produk</a>
+  <a href="?page=promo" class="<?= isset($_GET['page']) && $_GET['page'] === 'promo' ? 'active' : '' ?>">Daftar Promo</a>
+  <a href="?page=pengaturan_promo" class="<?= isset($_GET['page']) && $_GET['page'] === 'pengaturan_promo' ? 'active' : '' ?>">Pengaturan Promo</a>
   <a href="?page=logout">Logout</a>
 </div>
 
 <div class="content">
   <?php
-    if (isset($_GET['page']) && $_GET['page'] === 'daftar') {
-      include 'daftar-produk.php';
+    if (isset($_GET['page'])) {
+        switch ($_GET['page']) {
+            case 'daftar':
+                include 'daftar-produk.php';
+                break;
+            case 'promo':
+                include 'promo.php';
+                break;
+            case 'pengaturan_promo':
+                include 'pengaturan_promo.php';
+                break;
+            case 'logout':
+                session_destroy();
+                header("Location: login.php");
+                exit;
+            default:
+                include 'admin.php';
+        }
     } else {
-      include 'admin.php';
-    }
-    if (isset($_GET['page']) && $_GET['page'] === 'logout') {
-      session_start();
-      session_destroy();
-      header("Location: login.php");
-      exit;
+        include 'admin.php';
     }
   ?>
-
 </div>
 
 </body>

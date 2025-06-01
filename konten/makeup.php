@@ -1,5 +1,4 @@
 <?php
-
 $isLoggedIn = isset($_SESSION['user_id']); // Ubah sesuai nama session login kamu
 include '../header/header.php'; ?>
     <main class="isi">
