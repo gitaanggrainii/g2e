@@ -1,9 +1,5 @@
 <?php
-session_start();
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
-    exit;
-}
+
 $isLoggedIn = isset($_SESSION['user_id']); // Ubah sesuai nama session login kamu
 include '../header/header.php'; ?>
     <main class="isi">

@@ -1,7 +1,6 @@
 
  <?php
 include 'koneksi.php'; // Ganti sesuai dengan lokasi file koneksi Anda
-session_start();
 
 // Cek apakah ada pencarian
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';

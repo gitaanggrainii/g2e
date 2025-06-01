@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['email' ]) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -36,26 +43,27 @@
 
 <div class="sidebar">
   <h4 class="text-center">Dashboard Admin</h4>
-  <a href="?page=kelola" class="<?= !isset($_GET['page']) || $_GET['page'] === 'kelola' ? 'active' : '' ?>">Kelola Produk</a>
+  <a href="?page=kelola" class="<?= !isset($_GET['page']) || $_GET['page'] === 'kelola' ? 'active' : '' ?>">Tambah Produk</a>
   <a href="?page=daftar" class="<?= isset($_GET['page']) && $_GET['page'] === 'daftar' ? 'active' : '' ?>">Daftar Produk</a>
+  <a href="?page=logout">Logout</a>
 </div>
 
 <div class="content">
   <?php
-    if (isset($_GET['page'])) {
-      if ($_GET['page'] === 'daftar') {
-        include 'daftar-produk.php';
-      } elseif ($_GET['page'] === 'edit') {
-        include 'edit-produk.php';
-      } else {
-        include 'admin.php';
-      }
+    if (isset($_GET['page']) && $_GET['page'] === 'daftar') {
+      include 'daftar-produk.php';
     } else {
       include 'admin.php';
     }
+    if (isset($_GET['page']) && $_GET['page'] === 'logout') {
+      session_start();
+      session_destroy();
+      header("Location: login.php");
+      exit;
+    }
   ?>
-</div>
 
+</div>
 
 </body>
 </html>

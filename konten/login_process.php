@@ -24,9 +24,9 @@ if ($result->num_rows === 1) {
 
         // Arahkan berdasarkan role
         if ($user['role'] === 'admin') {
-            header("Location: admin.php");
+            header("Location: dashboard.php");
         } else {
-            header("Location: profile.php"); // atau ../user/home.php jika kamu punya
+            header("Location: rekomendasi.php"); // atau ../user/home.php jika kamu punya
         }
         exit;
     } else {
