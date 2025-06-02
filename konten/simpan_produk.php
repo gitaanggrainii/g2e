@@ -2,10 +2,13 @@
 include 'koneksi.php';
 
 // Ambil data dari form
-$name = $_POST['name'];
-$description = $_POST['description'];
+$name = mysqli_real_escape_string($conn, $_POST['name']);
+$description = mysqli_real_escape_string($conn, $_POST['description']);
 $price = $_POST['price'];
 $kategori_id = $_POST['kategori_id'];
+$harga_diskon = !empty($_POST['harga_diskon']) ? $_POST['harga_diskon'] : null;
+$promo_mulai = !empty($_POST['promo_mulai']) ? $_POST['promo_mulai'] : null;
+$promo_akhir = !empty($_POST['promo_akhir']) ? $_POST['promo_akhir'] : null;
 
 // Cek apakah file gambar dikirim
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -15,9 +18,16 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
 
     // Pindahkan file ke folder img/
     if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-        // Simpan data ke database
-        $sql = "INSERT INTO products (name, description, price, kategori_id, image_url) 
-                VALUES ('$name', '$description', '$price', '$kategori_id', '$image_name')";
+
+        // Siapkan query SQL dengan promo
+        $sql = "INSERT INTO products (
+                    name, description, price, kategori_id, image_url, harga_diskon, promo_mulai, promo_akhir
+                ) VALUES (
+                    '$name', '$description', '$price', '$kategori_id', '$image_name', " .
+                    ($harga_diskon !== null ? "'$harga_diskon'" : "NULL") . ", " .
+                    ($promo_mulai ? "'$promo_mulai'" : "NULL") . ", " .
+                    ($promo_akhir ? "'$promo_akhir'" : "NULL") .
+                ")";
 
         if (mysqli_query($conn, $sql)) {
             // Redirect ke halaman sesuai kategori
@@ -38,7 +48,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                     header("Location: bath&body.php");
                     break;
                 default:
-                    header("Location: admin.php"); // fallback jika kategori tidak dikenal
+                    header("Location: admin.php");
                     break;
             }
             exit;

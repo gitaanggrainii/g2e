@@ -1,20 +1,26 @@
 
-    <form action="simpan_produk.php" method="POST" enctype="multipart/form-data" 
-      style="max-width: 500px; margin: 30px auto; padding: 30px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; font-family: Arial, sans-serif;">
+    <form action="simpan_produk.php" method="POST" enctype="multipart/form-data" style="max-width: 500px; margin: 30px auto; padding: 30px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; font-family: Arial, sans-serif;">
     
     <h2 style="text-align: center; color: black;">Tambah Produk Baru</h2><br>
 
     <label for="name" style="display: block; margin-bottom: 5px;">Nama Produk:</label>
-    <input type="text" name="name" required 
-           style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+    <input type="text" name="name" required style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
 
     <label for="description" style="display: block; margin-bottom: 5px;">Deskripsi:</label>
-    <textarea name="description" required 
-              style="width: 100%; padding: 8px; height: 100px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+    <textarea name="description" required style="width: 100%; padding: 8px; height: 100px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
 
-    <label for="price" style="display: block; margin-bottom: 5px;">Harga:</label>
-    <input type="number" name="price" required 
-           style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+    <label for="price" style="display: block; margin-bottom: 5px;">Harga Asli:</label>
+    <input type="number" name="price" required style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+
+    <label for="diskon_persen">Diskon (%):</label>
+    <input type="number" name="diskon_persen" min="0" max="100" style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+
+
+    <label>Promo Mulai:</label>
+    <input type="date" name="promo_mulai" style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
+
+    <label>Promo Akhir:</label>
+    <input type="date" name="promo_akhir" style="width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ccc;">
 
     <label for="kategori_id" style="display: block; margin-bottom: 5px;">Kategori:</label>
     <select name="kategori_id" required 

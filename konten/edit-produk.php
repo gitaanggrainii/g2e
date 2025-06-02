@@ -10,7 +10,32 @@ if (isset($_POST['update'])) {
   $harga = $_POST['price'];
   $deskripsi = $_POST['description'];
 
-  mysqli_query($conn, "UPDATE products SET name='$nama', kategori_id='$kategori', price='$harga', description='$deskripsi' WHERE id=$id");
+  // Input diskon dan promo
+  $diskon_persen = isset($_POST['diskon_persen']) ? (int)$_POST['diskon_persen'] : 0;
+  $promo_mulai = !empty($_POST['promo_mulai']) ? $_POST['promo_mulai'] : null;
+  $promo_akhir = !empty($_POST['promo_akhir']) ? $_POST['promo_akhir'] : null;
+
+  // Hitung harga diskon otomatis
+  if ($diskon_persen > 0) {
+    $harga_diskon = $harga - ($harga * $diskon_persen / 100);
+  } else {
+    $harga_diskon = null;
+    $promo_mulai = null;
+    $promo_akhir = null;
+  }
+
+  $sql = "UPDATE products SET 
+            name='$nama', 
+            kategori_id='$kategori', 
+            price='$harga', 
+            description='$deskripsi', 
+            diskon_persen='$diskon_persen', 
+            harga_diskon=" . ($harga_diskon !== null ? $harga_diskon : "NULL") . ",
+            promo_mulai=" . ($promo_mulai ? "'$promo_mulai'" : "NULL") . ",
+            promo_akhir=" . ($promo_akhir ? "'$promo_akhir'" : "NULL") . "
+          WHERE id=$id";
+
+  mysqli_query($conn, $sql);
   header("Location: dashboard.php?page=daftar");
   exit;
 }
@@ -50,6 +75,33 @@ if (isset($_POST['update'])) {
     </tr>
 
     <tr>
+      <td style="padding: 10px;"><label>Diskon (%):</label></td>
+      <td style="padding: 10px;">
+        <input type="number" name="diskon_persen" min="0" max="100"
+               value="<?= $data['diskon_persen'] ?? 0 ?>"
+               style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding: 10px;"><label>Promo Mulai:</label></td>
+      <td style="padding: 10px;">
+        <input type="date" name="promo_mulai"
+               value="<?= $data['promo_mulai'] ?>"
+               style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding: 10px;"><label>Promo Akhir:</label></td>
+      <td style="padding: 10px;">
+        <input type="date" name="promo_akhir"
+               value="<?= $data['promo_akhir'] ?>"
+               style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+      </td>
+    </tr>
+
+    <tr>
       <td style="padding: 10px;"><label>Deskripsi:</label></td>
       <td style="padding: 10px;">
         <textarea name="description" required 
@@ -68,4 +120,3 @@ if (isset($_POST['update'])) {
     </tr>
   </table>
 </form>
-

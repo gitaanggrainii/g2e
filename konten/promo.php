@@ -23,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($jenis === 'produk') {
         $id_produk = $_POST['id_produk'];
-        $stmt = $conn->prepare("INSERT INTO promo (id_produk, tipe_diskon, nilai_diskon, tanggal_mulai, tanggal_berakhir, status)
-                                VALUES (?, ?, ?, ?, ?, 'aktif')");
+        $stmt = $conn->prepare("INSERT INTO promo (id_produk, tipe_diskon, nilai_diskon, tanggal_mulai, tanggal_berakhir, status) VALUES (?, ?, ?, ?, ?, 'aktif')");
         $stmt->bind_param("isdss", $id_produk, $tipe_diskon, $nilai_diskon, $tanggal_mulai, $tanggal_berakhir);
         $stmt->execute();
         $stmt->close();
@@ -32,8 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $kode = $_POST['kode'];
         $minimal_belanja = $_POST['minimal_belanja'];
         $kuota = $_POST['kuota'];
-        $stmt = $conn->prepare("INSERT INTO promo (kode, tipe_diskon, nilai_diskon, minimal_belanja, kuota, tanggal_mulai, tanggal_berakhir, status)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, 'aktif')");
+        $stmt = $conn->prepare("INSERT INTO promo (kode, tipe_diskon, nilai_diskon, minimal_belanja, kuota, tanggal_mulai, tanggal_berakhir, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'aktif')");
         $stmt->bind_param("ssddiss", $kode, $tipe_diskon, $nilai_diskon, $minimal_belanja, $kuota, $tanggal_mulai, $tanggal_berakhir);
         $stmt->execute();
         $stmt->close();
