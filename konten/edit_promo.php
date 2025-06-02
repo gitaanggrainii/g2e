@@ -100,7 +100,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <a href="dashboard.php?page=kelola">Tambah Produk</a>
     <a href="dashboard.php?page=daftar">Daftar Produk</a>
     <a href="dashboard.php?page=promo" class="active">Daftar Promo</a>
-    <a href="dashboard.php?page=pengaturan_promo">Pengaturan Promo</a>
     <a href="dashboard.php?page=logout">Logout</a>
 </div>
 

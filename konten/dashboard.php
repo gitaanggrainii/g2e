@@ -41,7 +41,6 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin') {
       background-color: #f8f9fa;
     }
 
-
   </style>
 </head>
 <body>
@@ -67,6 +66,9 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin') {
                 break;
             case 'pengaturan_promo':
                 include 'pengaturan_promo.php';
+                break;
+                case 'tambah_promo':
+                include 'tambah_promo.php';
                 break;
             case 'logout':
                 session_destroy();
