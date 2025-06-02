@@ -94,31 +94,81 @@ $total_keranjang = 0;
         <h3>Apply Coupon</h3>
         <form method="post" action="apply_coupon.php">
             <div>
-                <input type="text" name="coupon_code" placeholder="Enter Your Coupon">
+                <input type="text" name="coupon_code" placeholder="Enter Your Coupon" required>
                 <button type="submit" class="normal">Apply</button>
             </div>
-        </form>
+        </form><?php if (isset($_SESSION['notif'])): ?>
+    <div style="color: red; margin-top: 8px; font-size: 0.9em;">
+        <?= htmlspecialchars($_SESSION['notif']) ?>
+    </div>
+    <?php unset($_SESSION['notif']); ?>
+<?php endif; ?>
+
     </div>
 
-    <div id="subtotal">
-        <h3>Cart Totals</h3>
-        <table>
-            <tr>
-                <td>Cart Total</td>
-                <td><span id="cart-total">Rp <?= number_format($total_keranjang, 0, ',', '.') ?></span></td>
-            </tr>
-            <tr>
-                <td>Shipping</td>
-                <td>Rp 30.000</td>
-            </tr>
-            <tr>
-                <td><strong>Total</strong></td>
-                <td><strong><span id="grand-total">Rp <?= number_format($total_keranjang + 30000, 0, ',', '.') ?></span></strong></td>
-            </tr>
-        </table>
-        <a href="pembayaran.php"><button class="normal">Checkout</button></a>
-    </div>
+<div id="subtotal" class="mt-4">
+    <?php
+    $total_asli = $total_keranjang;
+    $total_diskon = 0;
+    $daftar_kupon = [];
+
+    if (!empty($_SESSION['coupons'])) {
+        foreach ($_SESSION['coupons'] as $coupon) {
+            if ($total_keranjang >= $coupon['minimal_belanja']) {
+                $potongan = $coupon['tipe_diskon'] === 'persen'
+                    ? $total_keranjang * ($coupon['nilai_diskon'] / 100)
+                    : $coupon['nilai_diskon'];
+                $daftar_kupon[] = [
+                    'kode' => $coupon['kode'],
+                    'potongan' => $potongan
+                ];
+                $total_diskon += $potongan;
+            }
+        }
+    }
+
+    $total_setelah_diskon = max(0, $total_asli - $total_diskon);
+    ?>
+
+    <h3>Total</h3>
+    <table style="width:100%; border-collapse: collapse; border: 1px solid #999;">
+        <?php if (!empty($daftar_kupon)): ?>
+        <tr>
+            <td style="padding: 8px; width:50%; border-right: 1px solid #999;">
+                <strong>Voucher:</strong>
+                <?php foreach ($daftar_kupon as $kupon): ?>
+                    <span style="margin-left: 8px; display: inline-block; font-size: 0.95em;">
+                        <strong><?= htmlspecialchars($kupon['kode']) ?></strong>
+                        <form method="post" action="hapus_kupon.php" style="display:inline;">
+                            <input type="hidden" name="kode_hapus" value="<?= $kupon['kode'] ?>">
+                            <button type="submit" style="border:none; background:none; color:red; font-weight:bold; font-size:14px; cursor:pointer;" title="Hapus kupon">×</button>
+                        </form>
+                    </span>
+                <?php endforeach; ?>
+            </td>
+            <td style="padding: 8px; text-align: right; border-left: 1px solid #999;">
+                - Rp <?= number_format($total_diskon, 0, ',', '.') ?>
+            </td>
+        </tr>
+        <?php endif; ?>
+        <tr>
+            <td style="padding: 8px;"><strong>Total</strong></td>
+            <td style="padding: 8px; text-align: right;">
+                <?php if ($total_diskon > 0): ?>
+                    <del style="font-size: 0.9em; color: #777;">Rp <?= number_format($total_asli, 0, ',', '.') ?></del><br>
+                    <strong style="font-size: 1.1em;">Rp <?= number_format($total_setelah_diskon, 0, ',', '.') ?></strong>
+                <?php else: ?>
+                    <strong>Rp <?= number_format($total_asli, 0, ',', '.') ?></strong>
+                <?php endif; ?>
+            </td>
+        </tr>
+    </table>
+    <a href="pembayaran.php"><button class="normal mt-2">Checkout</button></a>
+</div>
+
+
 </section>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

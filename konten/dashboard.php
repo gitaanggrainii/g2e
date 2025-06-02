@@ -21,6 +21,8 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin') {
       background-color: #343a40;
       color: white;
       padding-top: 2rem;
+      position: fixed;
+      height: 100%;
     }
     .sidebar a {
       display: block;
@@ -34,9 +36,12 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin') {
     }
     .content {
       flex: 1;
+      margin-left: 250px;
       padding: 2rem;
       background-color: #f8f9fa;
     }
+
+
   </style>
 </head>
 <body>
