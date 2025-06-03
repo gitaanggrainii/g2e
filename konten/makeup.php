@@ -21,6 +21,7 @@ $today = date('Y-m-d');
 echo '<div style="display: flex; flex-wrap: wrap;">';
 
 while ($row = mysqli_fetch_assoc($result)) {
+    echo '<a href="detail_produk.php?id=' . $row['id'] . '" style="text-decoration: none; color: inherit;">';
     echo '<div class="product-card" style="position: relative;">'; // pastikan position relative agar badge diskon posisi tepat
     echo '<img src="../img/' . htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['name']) . '">';
 
@@ -34,8 +35,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     // Tampilkan label diskon jika promo aktif dan diskon > 0
     if ($promoActive && !empty($row['diskon_persen']) && intval($row['diskon_persen']) > 0) {
-        echo '<div class="discount-badge" style="position: absolute; background: purple; color: white; padding: 5px; top: 10px; left: 10px; border-radius: 5px; font-size: 12px;">' 
-             . intval($row['diskon_persen']) . '% OFF</div>';
+        echo '<div class="discount-badge" style="position: absolute; background: aliceblue; color: black; padding: 5px; top: 10px; left: 10px; border-radius: 5px; font-size: 12px;">' 
+             . intval($row['diskon_persen']) . '%</div>';
     }
 
     echo '<div class="favorite-icon">';
@@ -50,7 +51,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     if ($promoActive && !empty($row['harga_diskon']) && $row['harga_diskon'] < $row['price']) {
         echo '<div class="price">';
         echo '<span style="text-decoration: line-through; color: gray;">Rp ' . number_format($row['price'], 0, ',', '.') . '</span><br>';
-        echo '<strong>Rp ' . number_format($row['harga_diskon'], 0, ',', '.') . '</strong>';
+        echo 'Rp ' . number_format($row['harga_diskon'], 0, ',', '.') . '';
         echo '</div>';
     } else {
         // Tidak ada promo aktif, tampilkan harga normal
@@ -62,9 +63,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '<button type="submit" class="blue-button">Add To Cart</button>';
     echo '</form>';
     echo '</div></div>';
+    echo '</a>';
 }
 echo '</div>';
 ?>
+
         <div class="motivasi-1" style="margin-top: 100px;">
             <h2>Get started with our curated Korean Makeup Sets!</h2>
             <img src="https://img.icons8.com/forma-thin/24/face-powder.png" alt="face-powder"/>
