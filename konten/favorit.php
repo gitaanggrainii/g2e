@@ -52,10 +52,12 @@ if ($result && mysqli_num_rows($result) > 0) {
         echo '</p>';
 
         echo '<div style="display: flex; justify-content: center; gap: 10px;">';
-        echo '<form action="add_to_cart.php" method="get">';
-        echo '<input type="hidden" name="id" value="' . $product['id'] . '">';
+        echo '<form action="add_to_cart.php" method="post">';
+        echo '<input type="hidden" name="product_id" value="' . $product['id'] . '">';
+        echo '<input type="hidden" name="redirect" value="keranjang.php">';
         echo '<button type="submit" class="blue-button" style="padding: 6px 10px; color:black; border: none; border-radius: 5px;">Add to Cart</button>';
         echo '</form>';
+
 
         echo '<form action="hapus_favorit.php" method="post" onsubmit="return confirm(\'Yakin ingin menghapus dari favorit?\')">';
         echo '<input type="hidden" name="fav_id" value="' . $product['fav_id'] . '">';
