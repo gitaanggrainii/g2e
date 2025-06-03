@@ -34,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('Gagal memperbarui alamat.');</script>";
     }
 }
+var_dump($update->error); // untuk cek kalau ada kesalahan query
+
 ?>
 
 <!DOCTYPE html>

@@ -6,6 +6,9 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['user_id'])) {
   header("Location: login.php");
   exit();
 }
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: 0");
 
 $user_id = $_SESSION['user_id'];
 $email = $_SESSION['email'];
