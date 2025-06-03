@@ -99,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h4 class="text-center">Dashboard Admin</h4>
     <a href="dashboard.php?page=kelola">Tambah Produk</a>
     <a href="dashboard.php?page=daftar">Daftar Produk</a>
+    <a href="dashboard.php?page=variasi">Daftar Variasi</a>
     <a href="dashboard.php?page=promo" class="active">Daftar Promo</a>
     <a href="dashboard.php?page=logout">Logout</a>
 </div>
