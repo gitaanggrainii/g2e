@@ -52,9 +52,9 @@ $conn->close();
             <a href="rekomendasi.php">RECOMMENDATION</a>
             <a href="makeup.php">MAKEUP</a>
             <a href="skincare.php">SKINCARE</a>
-            <a href="haircare.html">HAIRCARE</a>
-            <a href="nails.html">NAILS</a>
-            <a href="bath&body.html">BATH & BODY</a>
+            <a href="haircare.php">HAIRCARE</a>
+            <a href="nails.pho">NAILS</a>
+            <a href="bath&body.php">BATH & BODY</a>
         </nav>
         <section class="B">
           <div class="search-container">
