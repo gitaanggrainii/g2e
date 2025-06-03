@@ -1,3 +1,33 @@
+<?php
+session_start();
+include 'koneksi.php';
+
+if (!isset($_SESSION['email']) || !isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+
+// Ambil riwayat pembelian dari user, join ke products
+$query = "
+    SELECT 
+        r.purchase_id,
+        r.product_name,
+        r.quantity,
+        r.price,
+        r.purchase_date,
+        r.status,
+        p.image_url
+    FROM riwayat r
+    LEFT JOIN products p ON r.product_name = p.name
+    WHERE r.user_id = $user_id
+    ORDER BY r.purchase_date DESC
+";
+$result = mysqli_query($conn, $query);
+?>
+
  <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -136,56 +166,28 @@
       </div>
 
       <div class="purchase-history">
-        <div class="purchase-item">
-          <img src="bedak makeover.jpg" alt="Produk" class="product-image" />
-          <div class="purchase-details">
-            <div class="product-info">
-              <h3 class="product-name">Make Over Powerstay</h3>
-              <div class="product-price">Rp 180.000</div>
-            </div>
-            <div class="right-side">
-              <div class="status-tracker">📦 Pembelian diproses</div>
-              <div class="user-actions">
-                <a href="rating.php"><button type="button">Pembelian Selesai</button></a>
-                <button class="btn-action">Produk Tidak Sampai</button>
-              </div>
-            </div>
+  <?php while ($row = mysqli_fetch_assoc($result)): ?>
+    <div class="purchase-item">
+      <img src="../img/<?= htmlspecialchars($row['image_url'] ?? 'default.png') ?>" alt="Produk" class="product-image" />
+      <div class="purchase-details">
+        <div class="product-info">
+          <h3 class="product-name"><?= htmlspecialchars($row['product_name']) ?></h3>
+          <div class="product-price">Rp <?= number_format($row['price'], 0, ',', '.') ?></div>
+        </div>
+        <div class="right-side">
+          <div class="status-tracker">📦 <?= ucfirst($row['status']) ?></div>
+          <div class="user-actions">
+            <a href="rating.php?product=<?= urlencode($row['product_name']) ?>">
+              <button type="button">Pembelian Selesai</button>
+            </a>
+            <button class="btn-action">Produk Tidak Sampai</button>
           </div>
         </div>
+      </div>
+    </div>
+  <?php endwhile; ?>
+</div>
 
-        <div class="purchase-item">
-          <img src="eye.jpg" alt="Produk" class="product-image" />
-          <div class="purchase-details">
-            <div class="product-info">
-              <h3 class="product-name">Eyeshadow Palette</h3>
-              <div class="product-price">Rp 55.000</div>
-            </div>
-            <div class="right-side">
-              <div class="status-tracker">📦 Barang dikemas</div>
-              <div class="user-actions">
-              <a href="rating.html"><button type="button">Pembelian Selesai</button></a>
-                <button class="btn-action">Produk Tidak Sampai</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="purchase-item">
-          <img src="skintific.jpg" alt="Produk" class="product-image" />
-          <div class="purchase-details">
-            <div class="product-info">
-              <h3 class="product-name">SKINTIFIC - Niacinamide Brightening Serum 50ML | Serum Mencerahkan Dark Spot</h3>
-              <div class="product-price">Rp 159.000</div>
-            </div>
-            <div class="right-side">
-              <div class="status-tracker">📦 Barang dikirim</div>
-              <div class="user-actions">
-                <a href="rating.html"><button type="button">Pembelian Selesai</button></a>
-                <button class="btn-action">Produk Tidak Sampai</button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

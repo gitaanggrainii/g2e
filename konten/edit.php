@@ -51,14 +51,15 @@ $user = $result->fetch_assoc();
      <a href="profile.php"><button type="button">My Profile</button></a>
      <a href="edit.php"><button type="button">Edit Profile</button></a>
      <a href="riwayat.php"><button type="button">Riwayat Pembelian</button></a>
+     <a href="login.php"><button type="button">Logout</button></a>
 
     </div>
 
     <!-- Konten utama -->
     <div class="main-content">
       <div class="header">
-        <h2>Edit Profil</h2>
-        <button class="back-btn" onclick="alert('Kembali ke profil')">Kembali ke Profil</button>
+        <h2>Edit profile</h2>
+        <button class="back-btn" onclick="alert('Kembali ke profil')">Kembali ke Profile</button>
       </div>
 
       <form id="profileForm" method="POST" action="edit.php">
@@ -69,14 +70,12 @@ $user = $result->fetch_assoc();
         <label>Nama Lengkap</label>
         <input type="text" id="nama" name="username">
 
-        <label>Email</label>
-        <input type="email" id="email" name="email">
-
         <label>No HP</label>
         <input type="text" id="nohp" name="telepon">
 
         <label>Alamat</label>
         <textarea id="alamat" name="address"></textarea>
+
 
        <input type="submit" name="update" value="Simpan">
 
