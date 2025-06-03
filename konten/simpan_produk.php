@@ -29,7 +29,10 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
                     ($promo_akhir ? "'$promo_akhir'" : "NULL") .
                 ")";
 
-        if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($conn, $sql)) {
+    $new_product_id = mysqli_insert_id($conn);
+    header("Location: admin_variasi.php?product_id=$new_product_id");
+    exit;
             // Redirect ke halaman sesuai kategori
             switch ($kategori_id) {
                 case 1:

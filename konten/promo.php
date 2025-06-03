@@ -1,12 +1,16 @@
 <?php
 // === FILE: promo.php ===
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit;
 }
 include 'koneksi.php';
+
+
 
 // Hapus promo
 if (isset($_GET['hapus'])) {

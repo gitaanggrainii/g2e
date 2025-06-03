@@ -1,19 +1,24 @@
 
- <?php
-include 'koneksi.php'; // Ganti sesuai dengan lokasi file koneksi Anda
+<?php
+session_start();
+include 'koneksi.php';
 
-// Cek apakah ada pencarian
 $search = isset($_GET['q']) ? trim($_GET['q']) : '';
-
-// Simpan ke riwayat pencarian (jika pakai session untuk demo)
+$result = false;
+$today = date('Y-m-d');
 
 if (!empty($search)) {
+    if (!isset($_SESSION['search_history'])) {
+        $_SESSION['search_history'] = [];
+    }
     $_SESSION['search_history'][] = $search;
-    // Query pencarian produk
-    $query = "SELECT * FROM products WHERE name LIKE '%" . mysqli_real_escape_string($conn, $search) . "%'";
+
+    $safe_search = mysqli_real_escape_string($conn, $search);
+    $query = "SELECT * FROM products WHERE name LIKE '%$safe_search%' OR description LIKE '%$safe_search%'";
     $result = mysqli_query($conn, $query);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,24 +69,39 @@ if (!empty($search)) {
 
     <?php
     if ($result && mysqli_num_rows($result) > 0) {
-        echo '<div style="display: flex; gap: 30px; margin-top: 50px;">';
+        echo '<div style="display: flex; flex-wrap: wrap; gap: 30px;">';
         while ($row = mysqli_fetch_assoc($result)) {
-            echo '<div class="item">';
-            echo '<img src="../img/' . $row['image_url'] . '" width="100">';
-            echo '<div class="item-content">';
-            echo '<h3>' . htmlspecialchars($row['name']) . '</h3>';
-            echo '<p>' . htmlspecialchars($row['description']) . '</p>';
-            echo '<p class="price">Rp ' . number_format($row['price'], 0, ',', '.') . '</p>';
-            echo '<a href="tambah_favorit.php?product_id=' . $row['id'] . '&redirect=search.php?q=' . urlencode($search) . '"><button>Add to Cart</button></a>';
-            echo '</div>';
-            echo '</div>';
+            $promoActive = !empty($row['promo_mulai']) && !empty($row['promo_akhir']) && ($row['promo_mulai'] <= $today && $today <= $row['promo_akhir']);
+            $hasDiscount = $promoActive && intval($row['diskon_persen']) > 0 && $row['harga_diskon'] < $row['price'];
+
+            echo '<div class="item" style="width: 220px; border: 1px solid #ccc; border-radius: 10px; overflow: hidden; padding: 10px; background: #fff; position: relative; margin-bottom: 25px; margin-top:25px;">';
+            if ($hasDiscount) {
+                echo '<div class="discount-badge" style="position: absolute; top: 10px; left: 10px; background-color: aliceblue; color: black; padding: 4px 6px; font-size: 12px; border-radius: 4px;">' . $row['diskon_persen'] . '% UP</div>';
+            }
+            echo '<img src="../img/' . htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['name']) . '" style="width: 100%; height: 180px; object-fit: cover;">';
+            echo '<div class="item-content" style="margin-top: 10px;">';
+            echo '<h3 style="font-size: 16px; margin: 5px 0;">' . htmlspecialchars($row['name']) . '</h3>';
+            echo '<p style="font-size: 14px; color: #555;">' . htmlspecialchars($row['description']) . '</p>';
+            echo '<p class="price" style="margin: 10px 0;">';
+            if ($hasDiscount) {
+                echo '<del style="color:gray;">Rp ' . number_format($row['price'], 0, ',', '.') . '</del><br>';
+                echo 'Rp ' . number_format($row['harga_diskon'], 0, ',', '.') . '';
+            } else {
+                echo 'Rp ' . number_format($row['price'], 0, ',', '.');
+            }
+            echo '</p>';
+            echo '<a href="tambah_favorit.php?product_id=' . $row['id'] . '&redirect=search.php?q=' . urlencode($search) . '">';
+            echo '<button class="blue-button" style="width: 100%;  color: white; border: none; padding: 8px; border-radius: 5px;">Add to Cart</button></a>';
+            echo '</div></div>';
         }
         echo '</div>';
-    } else {
-        echo "<p>Tidak ada produk yang ditemukan atau terjadi kesalahan pada query.</p>";
+    } elseif (!empty($search)) {
+        echo "<p>Tidak ada produk yang cocok untuk: <strong>" . htmlspecialchars($search) . "</strong></p>";
         if (!$result) {
             echo "<p>Error detail: " . mysqli_error($conn) . "</p>";
         }
+    } else {
+        echo "<p>Silakan masukkan kata kunci pencarian.</p>";
     }
     ?>
     </div>
