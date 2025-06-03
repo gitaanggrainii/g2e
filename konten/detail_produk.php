@@ -120,18 +120,14 @@ if (!empty($data['harga_diskon']) && $data['harga_diskon'] < $data['price'] &&
         </div>
 
         <div style="display: flex;">
-            <form action="add_to_cart.php" method="post">
-                <input type="hidden" name="product_id" value="<?= $data['id'] ?>">
-                <button type="submit" class="btn cart-btn">Add to Cart</button>
-            </form>
+                <form action="add_to_cart.php" method="post">
+                    <input type="hidden" name="product_id" value="<?= $data['id'] ?>">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="btn cart-btn">Add to Cart</button>
+                </form>
 
             <a href="pembayaran.php?buy_now=<?= $data['id'] ?>" class="btn buy-btn" style="text-decoration: none; margin-left: 20px;">Buy Now</a>
         </div>
-
-        <form action="favorit.php" method="post">
-            <input type="hidden" name="product_id" value="<?= $data['id'] ?>">
-            <button type="submit" class="wishlist" style="background:none; border:none;">♥</button>
-        </form>
     </div>
 </div>
 </body>

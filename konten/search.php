@@ -76,7 +76,7 @@ if (!empty($search)) {
 
             echo '<div class="item" style="width: 220px; border: 1px solid #ccc; border-radius: 10px; overflow: hidden; padding: 10px; background: #fff; position: relative; margin-bottom: 25px; margin-top:25px;">';
             if ($hasDiscount) {
-                echo '<div class="discount-badge" style="position: absolute; top: 10px; left: 10px; background-color: aliceblue; color: black; padding: 4px 6px; font-size: 12px; border-radius: 4px;">' . $row['diskon_persen'] . '% UP</div>';
+                echo '<div class="discount-badge" style="position: absolute; top: 10px; left: 10px; background-color: aliceblue; color: black; padding: 4px 6px; font-size: 12px; border-radius: 4px;">' . $row['diskon_persen'] . '%</div>';
             }
             echo '<img src="../img/' . htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['name']) . '" style="width: 100%; height: 180px; object-fit: cover;">';
             echo '<div class="item-content" style="margin-top: 10px;">';
@@ -90,8 +90,14 @@ if (!empty($search)) {
                 echo 'Rp ' . number_format($row['price'], 0, ',', '.');
             }
             echo '</p>';
-            echo '<a href="tambah_favorit.php?product_id=' . $row['id'] . '&redirect=search.php?q=' . urlencode($search) . '">';
-            echo '<button class="blue-button" style="width: 100%;  color: white; border: none; padding: 8px; border-radius: 5px;">Add to Cart</button></a>';
+            echo '<a href="tambah_favorit.php?product_id=' . $row['id'] . '&redirect=favorit.php" style="color: red; font-size: 20px; text-decoration: none;">♥</a>';
+
+            // Form Add to Cart
+            echo '<form action="add_to_cart.php" method="post">';
+            echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($row['id']) . '">';
+            echo '<input type="hidden" name="quantity" value="1">';
+            echo '<button type="submit" class="blue-button" style="width: 100%; color: white; border: none; padding: 8px; border-radius: 5px;">Add to Cart</button>';
+            echo '</form>'; 
             echo '</div></div>';
         }
         echo '</div>';

@@ -56,9 +56,10 @@ while ($row = mysqli_fetch_assoc($result)) {
         echo '<div class="price">Rp ' . number_format($row['price'], 0, ',', '.') . '</div>';
     }
 
-    echo '<form method="get" action="add_to_cart.php">';
-    echo '<input type="hidden" name="id" value="' . $row['id'] . '">';
-    echo '<button type="submit" class="blue-button">Add To Cart</button>';
+    echo '<form action="add_to_cart.php" method="post">';
+    echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($row['id']) . '">';
+    echo '<input type="hidden" name="quantity" value="1">';
+    echo '<button type="submit" class="blue-button" style="width: 50%; color: white; border: none; padding: 8px; border-radius: 5px;">Add to Cart</button>';
     echo '</form>';
     echo '</div></div>';
     echo '</a>';

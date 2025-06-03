@@ -75,9 +75,9 @@ if (isset($_SESSION['users'])) {
 
       <div id="result" class="result">
         <img src="uploads/profiles/<?php echo htmlspecialchars($user['profile_picture']); ?>" id="savedFoto" class="profile-img">
-       <p><strong>Nama:</strong> <span id="outfull_name"><?php echo htmlspecialchars($user['full_name']); ?></span></p>
+      <p><strong>Nama:</strong> <span id="outfull_name"><?php echo htmlspecialchars($user['full_name']); ?></span></p>
       <p><strong>Email:</strong> <span id="outemail"><?php echo htmlspecialchars($user['email']); ?></span></p>
-      <p><strong>No HP:</strong> <span id="outNoHP"><?php echo htmlspecialchars($user['telepon']); ?></span></p>
+      <p><strong>No HP:</strong> <span id="outNoHP"><?php echo isset($user['telepon']) ? htmlspecialchars($user['telepon']) : ''; ?></span></p>
       <p><strong>Alamat:</strong> <span id="outaddress"><?php echo htmlspecialchars($user['address']); ?></span></p>
 
       </div>
