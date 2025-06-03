@@ -9,6 +9,7 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+
 // Ambil riwayat pembelian dari user, join ke products
 $query = "
     SELECT 
