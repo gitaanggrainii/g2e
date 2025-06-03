@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="rekomendasi.css">
+    <title>rekomendasi</title>
+    <link rel="stylesheet" href="../css/Rekomendasi.css">
     <script src="https://kit.fontawesome.com/9de9498044.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="logo-web">
         <div class="nama-web">
-            <a href="start.html"><h1>G2E</h1></a>
+            <a href="start.php"><h1>G2E</h1></a>
         </div>
         <nav class="navbar-menu">
-            <a href="rekomendasi.html">RECOMMENDATION</a>
-            <a href="makeup.html">MAKEUP</a>
-            <a href="skincare.html">SKINCARE</a>
-            <a href="haircare.html">HAIRCARE</a>
-            <a href="nails.html">NAILS</a>
-            <a href="bath&body.html">BATH & BODY</a>
+            <a href="rekomendasi.php">RECOMMENDATION</a>
+            <a href="makeup.php">MAKEUP</a>
+            <a href="skincare.php">SKINCARE</a>
+            <a href="haircare.php">HAIRCARE</a>
+            <a href="nails.php">NAILS</a>
+            <a href="bath&body.php">BATH & BODY</a>
         </nav>
         <section class="B">
           <div class="search-container">
-            <a href="search.html">
+            <a href="search.php">
               <img id="search-icon" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1" />
               <input id="search-bar" type="text" placeholder="Type to search..." />
             </a>
@@ -33,25 +33,17 @@
             <div class="sub-menu-wrap" id="subMenu">
               <div class="sub-menu">
                 <hr>
-                <a href="Login.html" class="sub-menu-link">
+                <a href="Login.php" class="sub-menu-link">
                   <img src="login.jpg" width="30">
                   <p>Login</p>
                 </a> 
-                <a href="profile.html" class="sub-menu-link" onclick="toggleMenu()">
+                <a href="profile.php" class="sub-menu-link" onclick="toggleMenu()">
                   <img src="edit profile.jpg" width="30">
                   <p>Profile</p>
                 </a>
-                <a href="settings.html" class="sub-menu-link" onclick="toggleMenu()">
-                  <img src="setting.jpg" width="30">
-                  <p>Settings</p>
-                </a>
-                <a href="logout.html" class="sub-menu-link" onclick="toggleMenu()">
+                <a href="logout.php" class="sub-menu-link" onclick="toggleMenu()">
                   <img src="logout.jpg" width="30">
                   <p>Logout</p>
-                </a>
-                <a href="admin.html" class="sub-menu-link" onclick="toggleMenu()">
-                  <img src="adminpict.png" width="30">
-                  <p>Admin</p>
                 </a>
               </div>
             </div>
