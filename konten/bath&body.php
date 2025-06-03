@@ -19,6 +19,7 @@ $today = date('Y-m-d');
 echo '<div style="display: flex; flex-wrap: wrap;">';
 
 while ($row = mysqli_fetch_assoc($result)) {
+    echo '<a href="detail_produk.php?id=' . $row['id'] . '" style="text-decoration: none; color: inherit;">';
     echo '<div class="product-card" style="position: relative;">'; // pastikan position relative agar badge diskon posisi tepat
     echo '<img src="../img/' . htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['name']) . '">';
 
@@ -60,6 +61,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo '<button type="submit" class="blue-button">Add To Cart</button>';
     echo '</form>';
     echo '</div></div>';
+    echo '</a>';
 }
 echo '</div>';
 ?>

@@ -15,7 +15,7 @@ $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : null;
         $data = mysqli_fetch_assoc($res);
         ?>
         <p><strong>Produk:</strong> <?= htmlspecialchars($data['name']) ?></p>
-    <?php else: ?>
+        <?php else: ?>
         <!-- Mode: dari menu -->
         <label for="product_id">Pilih Produk:</label>
         <select name="product_id" required style="width:100%; padding:8px; margin-bottom:15px;">
