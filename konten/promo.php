@@ -48,8 +48,20 @@ if (isset($_GET['hapus'])) {
     </thead>
     <tbody>
 <?php
+$tanggal_hari_ini = date('Y-m-d');
 $result = mysqli_query($conn, "SELECT * FROM promo WHERE kode IS NOT NULL ORDER BY id ASC");
 while ($row = mysqli_fetch_assoc($result)) {
+  // Periksa apakah promo sudah kedaluwarsa dan masih aktif
+  if (strtotime($row['tanggal_berakhir']) < strtotime($tanggal_hari_ini) && $row['status'] === 'aktif') {
+    mysqli_query($conn, "UPDATE promo SET status = 'nonaktif' WHERE id = {$row['id']}");
+    $row['status'] = 'nonaktif';
+  }
+  // Periksa apakah promo sudah mulai dan masih nonaktif
+  elseif (strtotime($row['tanggal_mulai']) <= strtotime($tanggal_hari_ini) && $row['status'] === 'nonaktif' && strtotime($row['tanggal_berakhir']) >= strtotime($tanggal_hari_ini)) {
+    mysqli_query($conn, "UPDATE promo SET status = 'aktif' WHERE id = {$row['id']}");
+    $row['status'] = 'aktif';
+  }
+
   echo "<tr>
     <td>{$row['id']}</td>
     <td>{$row['kode']}</td>
@@ -62,7 +74,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     <td>" . ucfirst($row['status']) . "</td>
     <td>
       <a href='edit_promo.php?id={$row['id']}' class='btn btn-sm btn-warning'>Edit</a>
-      <a href='dashboard.php?page=promo&hapus={$row['id']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Yakin ingin menghapus promo?\")'>Hapus</a>
+      <a href='dashboard.php?page=promo&hapus={$row['id']}' class='btn btn-sm btn-danger' onclick=\"return confirm('Yakin ingin menghapus promo?')\">Hapus</a>
     </td>
   </tr>";
 }

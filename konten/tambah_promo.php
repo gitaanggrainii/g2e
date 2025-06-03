@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <label>Tanggal Berakhir</label>
       <input type="date" name="tanggal_berakhir" class="form-control" required>
     </div>
-    <button type="submit" class="btn btn-primary">Simpan Kode Promo</button>
+    <button type="submit" class="btn btn-success">Simpan Kode Promo</button>
     <a href="dashboard.php?page=promo" class="btn btn-secondary">Kembali</a>
   </form>
 </div>

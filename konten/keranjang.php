@@ -113,12 +113,11 @@ $total_keranjang = 0;
                 </div>
             </form>
             <?php if (isset($_SESSION['notif'])): ?>
-    <div style="color: red; margin-top: 8px; font-size: 0.9em;">
-        <?= htmlspecialchars($_SESSION['notif']) ?>
-    </div>
-    <?php unset($_SESSION['notif']); ?>
-<?php endif; ?>
-
+                <div style="color: red; margin-top: 8px; font-size: 0.9em;">
+                    <?= htmlspecialchars($_SESSION['notif']) ?>
+                </div>
+                <?php unset($_SESSION['notif']); ?>
+            <?php endif; ?>
         </div>
 
         <div id="subtotal" class="mt-4">
