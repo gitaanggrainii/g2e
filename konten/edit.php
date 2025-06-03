@@ -59,7 +59,7 @@ $user = $result->fetch_assoc();
     <div class="main-content">
       <div class="header">
         <h2>Edit profile</h2>
-        <button class="back-btn" onclick="alert('Kembali ke profil')">Kembali ke Profile</button>
+        <a href="makeup.php"><button type="button">kembali</button></a>
       </div>
 
       <form id="profileForm" method="POST" action="edit.php">

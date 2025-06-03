@@ -156,13 +156,14 @@ $result = mysqli_query($conn, $query);
       <a href="profile.php"><button type="button">My Profile</button></a>
       <a href="edit.php"><button type="button">Edit Profile</button></a>
       <a href="riwayat.php"><button type="button">Riwayat Pembelian</button></a>
+      <a href="login.php"><button type="button">Logout</button></a>
     </div>
 
     <!-- Konten utama -->
    <div class="main-content">
       <div class="header">
         <h2>Riwayat Pembelian</h2>
-        <button class="back-btn" onclick="alert('Kembali ke profil')">Kembali ke Profil</button>
+        <a href="makeup.php"><button type="button">Kembali</button></a>
       </div>
 
       <div class="purchase-history">
