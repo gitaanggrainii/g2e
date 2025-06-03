@@ -1,0 +1,472 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(250, 252, 254);
+}
+.logo-web{
+  left: 0;
+  right: 0;
+  height: 100px;
+  position: sticky;
+  display: flex;
+  z-index: 10;
+  justify-content: space-around;
+  align-items: center;
+  background-color: aliceblue ;
+  top: 0;
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+}
+.nama-web{
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(73, 73, 160);
+}
+
+.nama-web a{
+  text-decoration: none;
+  color: rgb(73, 73, 160);
+}
+.isi{
+  margin-top: 20px;
+}
+
+.deskripsi{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  margin-top: 30px;
+}
+.deskripsi h2{
+  font-weight: normal;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 8px;
+  font-size: x-large;
+}
+
+.navbar-menu a{
+  padding: 35px;
+  text-decoration: none;
+  color: black;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#search-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  padding-top: 8px;
+}
+#search-icon:hover {
+  transform: scale(1.1);
+}
+
+#search-bar {
+  width: 0;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: width 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#search-bar.active {
+  width: 200px;
+  opacity: 1;
+  visibility: visible;
+}
+#user-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+#user-icon:hover {
+  transform: scale(1.1);
+}
+#cart-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+#cart-icon:hover {
+  transform: scale(1.1);
+}
+
+.cart-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.cart-container img{
+  display: flex;
+  place-items: center;
+}
+  
+
+.cart-container span {
+  background-color: rgb(51, 120, 180);
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  color: white;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  place-items: center;
+  position: relative;
+  bottom: 8px;
+  right: 10px;
+}
+
+/* Container dropdown */
+.sub-menu-wrap {
+  display: none;
+  position: absolute;
+  top: 90px;
+  right: 70px;
+  background: rgb(247, 243, 243);
+  border-radius: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 10px 0;
+  min-width: 210px; 
+  transition: all 0.3s ease;
+}
+
+.sub-menu-wrap.open-menu {
+  display: block;
+}
+
+/* Daftar isi dropdown */
+.sub-menu {
+  display: flex;
+  flex-direction: column; 
+}
+
+/* Item menu */
+.sub-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px; /* atas-bawah & kiri-kanan */
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  transition: background-color 0.2s ease;
+  width: 100%; 
+  box-sizing: border-box;
+  border-bottom: 1px solid #ddd;
+}
+
+.sub-menu-link:hover {
+  background-color: #f3f3f3;
+  cursor: pointer;
+}
+
+.sub-menu-link img {
+  width: 10px;
+  height: auto;
+}
+
+.B {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Jarak antar ikon */
+  background-color: #f1f8ff;
+  padding: 10px;
+}
+
+.B > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ukuran seragam untuk semua ikon */
+.B img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* Styling untuk badge angka */
+.cart-badge {
+  background-color: rgb(51, 120, 180);
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    color: white;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    place-items: center;
+    position: relative;
+    bottom: 8px;
+    right: 15px;
+}
+
+/* <!--- MULAI DARI SINIII */
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin-bottom: 20px;
+}
+
+.produk {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.produk img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.info h3 {
+    margin: 0;
+    color: #444;
+}
+
+.info p {
+    margin: 5px 0 0;
+    color: #554b4b94;
+    font-weight:100;
+} 
+
+.rating {
+    margin-bottom: 20px;
+}
+
+.bintang span {
+    font-size: 30px;
+    color: #e1ff00;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.komentar textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+    margin-top: 10px;
+}
+
+.tombol {
+    background-color: #d80000;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.tombol:hover {
+    background-color: #b30000;
+}
+/* TAMBAHKAN INI DI AKHIR FILE CSS ANDA */
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px); /* 100px adalah tinggi header */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: rgb(255, 255, 255);
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto; 
+    margin-top: 50px;;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid #ffffff;
+    text-align: center;
+}
+
+/*foterrr*/
+footer{
+    position: fixed;
+    bottom: 0;
+  }
+  .footer-left{
+    margin: 0;
+    padding-bottom: 50px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: white;
+    text-align: left;
+  }
+  .footer{
+    background-color:#948eaf;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font: bold 16px sans-serif;
+    padding: 50px 50px 60px 50px;
+    margin-top: 50px;
+  }
+  
+  .footer .footer-left,
+  .footer .footer-center,
+  .footer .footer-right {
+    display: inline-block;
+    vertical-align: top;
+  }
+  
+  @media(max-height:800px) {
+    footer {
+      position: static;
+    }
+    Header{
+      padding: 40px;
+    }
+  }
+  .footer .footer-left{
+    width: 30%;
+  }
+  .footer h3 {
+    margin: 0;
+    padding-bottom: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+  
+  .footer .footer-left img{
+    width: 25%;
+    vertical-align: middle;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+  }
+  
+  .footer .footer-left .credit-card{
+   width: 100%;
+   padding-top: 2%;
+  }
+  
+  .footer .footer-copyright {
+    color: whitesmoke;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0;
+    padding-top: 2%;
+  }
+  .footer .footer-center {
+    width: 35%;
+  }
+  .footer .footer-center i {
+    background-color:#2a2f32;
+    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 50px;
+    margin: 10px 15px;
+    vertical-align: middle;
+    color: white;
+  }
+  
+  .footer .footer-center p {
+    display: inline-block;
+    color: white;
+    vertical-align: middle;
+    margin: 0px;
+  }
+  .footer .footer-center p span{
+    display: block;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 2;
+  }
+  
+  .footer .footer-center p a {
+    color: white;
+    text-decoration: none;
+  }
+  .footer .footer-right{
+    width:30%;
+  }
+  .footer .footer-about{
+    line-height: 20px;
+    color: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    margin: 0;
+  }
+  .footer .footer-about span{
+    display: block;
+    color:#ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .footer .footer-media{
+    margin-top: 25px;
+  }
+  .footer .footer-media a{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-color: #33383b;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 50px;
+  text-align: center;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  }
+  
+  .footer .footer-media a:hover {
+    background-color:rgb(145, 151, 149);
+  }
+  @media (max-width:800px){
+    .footer .footer-left,
+    .footer .footer-center,
+    .footer .footer-right {
+      display:block ;
+      width: 100%;
+      margin-bottom: 40px;
+      text-align: left;
+     }
+     @media (min-width: 1024px) { 
+      .content {
+         width: 75%;
+          margin: 0 auto; } }
+     .footer .footer-center i{
+      margin-left:0px;
+     }
+     @media (max-width: 768px){
+      .footer .footer-center{ 
+        width: 100%;
+        margin-bottom: 40px;
+        text-align: right;
+        flex: 1 1 calc(33.33% - 20px);
+      }
+    }
+}
+

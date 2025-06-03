@@ -26,7 +26,7 @@ if ($result->num_rows === 1) {
         if ($user['role'] === 'admin') {
             header("Location: dashboard.php");
         } else {
-            header("Location: rekomendasi.php"); // atau ../user/home.php jika kamu punya
+            header("Location: profile.php"); // atau ../user/home.php jika kamu punya
         }
         exit;
     } else {
