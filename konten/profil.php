@@ -28,7 +28,7 @@ if (isset($_SESSION['users'])) {
 <head>
   <meta charset="UTF-8">
   <title>Profil Pengguna</title>
-  <link rel="stylesheet" href="Myprofil.css">
+  <link rel="stylesheet" href="../css/Myprofil.css">
 </head>
 <body>
 

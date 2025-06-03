@@ -40,7 +40,7 @@ $user = $result->fetch_assoc();
 <head>
   <meta charset="UTF-8">
   <title>Edit Profil</title>
-  <link rel="stylesheet" href="edit.css">
+  <link rel="stylesheet" href="../css/edit.css">
 </head>
 <body>
   <div class="container">
