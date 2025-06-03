@@ -101,7 +101,7 @@ if (!empty($data['harga_diskon']) && $data['harga_diskon'] < $data['price'] &&
         <img src="../img/<?= htmlspecialchars($data['image_url']) ?>" class="main-image" id="mainImage">
         <div class="variant-row">
             <?php while ($v = mysqli_fetch_assoc($variants)) { ?>
-                <img src="../img/<?= htmlspecialchars($v['gambar_variasi']) ?>" class="thumbnail" onclick="document.getElementById('mainImage').src='img/<?= htmlspecialchars($v['gambar_variasi']) ?>'">
+                <img src="../img/<?= htmlspecialchars($v['gambar_variasi']) ?>" class="thumbnail" onclick="document.getElementById('mainImage').src='../img/<?= htmlspecialchars($v['gambar_variasi']) ?>'">
             <?php } ?>
         </div>
     </div>
@@ -119,22 +119,20 @@ if (!empty($data['harga_diskon']) && $data['harga_diskon'] < $data['price'] &&
             <?php endif; ?>
         </div>
 
-        <div>
-            <form action="add_to_cart.php" method="post" style="margin-top: 15px;">
+        <div style="display: flex;">
+            <form action="add_to_cart.php" method="post">
                 <input type="hidden" name="product_id" value="<?= $data['id'] ?>">
                 <button type="submit" class="btn cart-btn">Add to Cart</button>
-                <button type="submit" formaction="buy_now.php" class="btn buy-btn">Buy Now</button>
             </form>
+
+            <a href="pembayaran.php?buy_now=<?= $data['id'] ?>" class="btn buy-btn" style="text-decoration: none; margin-left: 20px;">Buy Now</a>
         </div>
 
-        <div>
-            <form action="favorit.php" method="post">
-                <input type="hidden" name="product_id" value="<?= $data['id'] ?>">
-                <button type="submit" class="wishlist" style="background:none; border:none;">♥</button>
-            </form>
-        </div>
+        <form action="favorit.php" method="post">
+            <input type="hidden" name="product_id" value="<?= $data['id'] ?>">
+            <button type="submit" class="wishlist" style="background:none; border:none;">♥</button>
+        </form>
     </div>
 </div>
-
 </body>
 </html>
