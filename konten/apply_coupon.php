@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($sudah_ada) {
             $_SESSION['notif'] = 'Kupon sudah digunakan.';
         } elseif (count($_SESSION['coupons']) >= 2) {
-            $_SESSION['notif'] = 'Penggunaan kupon melebihi batas.';
+            $_SESSION['notif'] = 'Kupon tidak bisa ditambahkan lebih dari 2.';
         } else {
             $_SESSION['coupons'][] = $kupon;
         }
