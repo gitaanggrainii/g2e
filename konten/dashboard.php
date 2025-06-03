@@ -52,7 +52,6 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin') {
   <a href="?page=daftar" class="<?= isset($_GET['page']) && $_GET['page'] === 'daftar' ? 'active' : '' ?>">Daftar Produk</a>
   <a href="?page=variasi" class="<?= isset($_GET['page']) && $_GET['page'] === 'variasi' ? 'active' : '' ?>">Daftar Variasi</a>
   <a href="?page=promo" class="<?= isset($_GET['page']) && $_GET['page'] === 'promo' ? 'active' : '' ?>">Daftar Promo</a>
-  <a href="?page=pengaturan_promo" class="<?= isset($_GET['page']) && $_GET['page'] === 'pengaturan_promo' ? 'active' : '' ?>">Pengaturan Promo</a>
   <a href="?page=logout">Logout</a>
 </div>
 
@@ -65,9 +64,6 @@ if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'admin') {
                 break;
             case 'promo':
                 include 'promo.php';
-                break;
-            case 'pengaturan_promo':
-                include 'pengaturan_promo.php';
                 break;
             case 'variasi':
                 include 'daftar_variasi.php';
