@@ -1,3 +1,33 @@
+<?php
+session_start();
+include 'koneksi.php';
+
+if (!isset($_SESSION['email']) || !isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+
+// Ambil riwayat pembelian dari user, join ke products
+$query = "
+    SELECT 
+        r.purchase_id,
+        r.product_name,
+        r.quantity,
+        r.price,
+        r.purchase_date,
+        r.status,
+        p.image_url
+    FROM riwayat r
+    LEFT JOIN products p ON r.product_name = p.name
+    WHERE r.user_id = $user_id
+    ORDER BY r.purchase_date DESC
+";
+$result = mysqli_query($conn, $query);
+?>
+
  <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -179,4 +209,3 @@
     });
   </script>
 </body>
-</html>
