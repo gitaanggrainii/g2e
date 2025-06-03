@@ -158,10 +158,14 @@ bintangSpan.forEach((star, index) => {
     <title>Beri Rating Produk</title>
     <link rel="stylesheet" href="style.css">
 
+      <form action="rating.php" method="POST">
+        <input type="hidden" name="product_id" value="1"> <!-- Sesuaikan ID produk -->
+        <input type="hidden" name="rating" id="ratingInput" value="0">
+
       <div class="container">
         <h1>Rating Produk</h1>
         <hr>
-        
+
         <!-- Bagian Info Produk -->
         <div class="produk">
             <img src="bedak makeover.jpg" alt="Gambar Produk">
@@ -193,31 +197,26 @@ bintangSpan.forEach((star, index) => {
         <button class="tombol">Kirim Review</button>
     </div>
 
+<script>
+    const bintangSpan = document.querySelectorAll('#bintangContainer span');
+    const ratingInput = document.getElementById('ratingInput');
 
+    bintangSpan.forEach((star, index) => {
+        star.addEventListener('click', () => {
+            // Reset semua bintang ke kosong
+            bintangSpan.forEach(s => s.textContent = '☆');
 
-    <script>
+            // Isi bintang sampai indeks yang diklik
+            for (let i = 0; i <= index; i++) {
+                bintangSpan[i].textContent = '★';
+            }
 
-// Ambil semua elemen bintang
-const bintang = document.querySelectorAll('.bintang span');
-
-// Tambahkan event untuk setiap bintang
-bintang.forEach((star, index) => {
-    star.addEventListener('click', () => {
-        // Reset semua bintang
-        bintang.forEach(s => s.textContent = '☆');
-        
-        // Isi bintang yang diklik dan sebelumnya
-        for(let i = 0; i <= index; i++) {
-            bintang[i].textContent = '★';
-        }
+            // Simpan nilai rating ke input hidden
+            ratingInput.value = index + 1;
+        });
     });
-});
+</script>
 
-// Tombol kirim
-document.querySelector('.tombol').addEventListener('click', () => {
-    alert('Terima kasih! Review Anda telah dikirim.');
-});
-    </script>
 
 <div class="footer">
     <div class="footer-left">

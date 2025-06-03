@@ -42,6 +42,7 @@ if (isset($_SESSION['users'])) {
       <a href="profile.php"><button type="button">My Profile</button></a>
       <a href="edit.php"><button type="button">Edit Profile</button></a>
       <a href="riwayat.php"><button type="button">Riwayat Pembelian</button></a>
+      <a href="login.php"><button type="button">Logout</button></a>
 
     </div>
 
@@ -49,7 +50,7 @@ if (isset($_SESSION['users'])) {
     <div class="main-content">
       <div class="header">
         <h2>Profil Pengguna</h2>
-        <button class="back-btn">Kembali ke Profil</button>
+        <a href="makeup.php"><button type="button">Kembali</button></a>
       </div>
 
       <form id="profileForm" action="update_profile.php" method="POST" enctype="multipart/form-data">
@@ -59,9 +60,6 @@ if (isset($_SESSION['users'])) {
 
         <label>Nama Lengkap</label>
         <input type="text" name="full_name" id="full_name" ...>
-
-        <label>Email</label>
-        <input type="email" name="email" id="email" ...>
 
         <label>No HP</label>
         <input type="tel" name="telepon" id="telepon" ...>

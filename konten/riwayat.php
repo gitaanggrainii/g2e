@@ -1,33 +1,3 @@
- <?php
-session_start();
-include 'koneksi.php';
-
-if (!isset($_SESSION['email']) || !isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
-
-$user_id = $_SESSION['user_id'];
-
-
-// Ambil riwayat pembelian dari user, join ke products
-$query = "
-    SELECT 
-        r.purchase_id,
-        r.product_name,
-        r.quantity,
-        r.price,
-        r.purchase_date,
-        r.status,
-        p.image_url
-    FROM riwayat r
-    LEFT JOIN products p ON r.product_name = p.name
-    WHERE r.user_id = $user_id
-    ORDER BY r.purchase_date DESC
-";
-$result = mysqli_query($conn, $query);
-?>
-
  <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -156,13 +126,14 @@ $result = mysqli_query($conn, $query);
       <a href="profile.php"><button type="button">My Profile</button></a>
       <a href="edit.php"><button type="button">Edit Profile</button></a>
       <a href="riwayat.php"><button type="button">Riwayat Pembelian</button></a>
+      <a href="login.php"><button type="button">Logout</button></a>
     </div>
 
     <!-- Konten utama -->
    <div class="main-content">
       <div class="header">
         <h2>Riwayat Pembelian</h2>
-        <button class="back-btn" onclick="alert('Kembali ke profil')">Kembali ke Profil</button>
+        <a href="makeup.php"><button type="button">Kembali</button></a>
       </div>
 
       <div class="purchase-history">

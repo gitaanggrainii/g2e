@@ -40,6 +40,10 @@ if (!empty($data['harga_diskon']) && $data['harga_diskon'] < $data['price'] &&
      $today >= $data['promo_mulai'] && $today <= $data['promo_akhir'])) {
     $promo_active = true;
 }
+
+// Ambil ulasan untuk produk ini
+$reviews = mysqli_query($conn, "SELECT u.*, us.email FROM ulasan u JOIN users us ON u.user_id = us.id WHERE produk_id = $product_id ORDER BY created_at DESC");
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -130,5 +134,26 @@ if (!empty($data['harga_diskon']) && $data['harga_diskon'] < $data['price'] &&
         </div>
     </div>
 </div>
+
+
+<div style="max-width: 1000px; margin: 60px auto 40px; padding: 20px;">
+    <h3 style="margin-bottom: 20px;">Ulasan Pengguna</h3>
+    <?php if (mysqli_num_rows($reviews) > 0): ?>
+        <?php while ($r = mysqli_fetch_assoc($reviews)) : ?>
+            <div style="margin-bottom: 20px; padding: 15px 20px; background: #fdfdfd; border: 1px solid #e0e0e0; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                <strong><?= htmlspecialchars($r['email']) ?></strong> 
+                <div style="color: gold; font-size: 16px; margin: 5px 0;">
+                  <?php for ($i = 1; $i <= 5; $i++) echo $i <= $r['rating'] ? '★' : '☆'; ?>
+                </div>
+                <small style="color: #777;"><?= date('d M Y', strtotime($r['created_at'])) ?></small>
+                <p style="margin-top: 10px; line-height: 1.5;"><?= nl2br(htmlspecialchars($r['komentar'])) ?></p>
+            </div>
+        <?php endwhile; ?>
+    <?php else: ?>
+        <p style="color: #777;">Belum ada ulasan untuk produk ini.</p>
+    <?php endif; ?>
+</div>
+
+
 </body>
 </html>
