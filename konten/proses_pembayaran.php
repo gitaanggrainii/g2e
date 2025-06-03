@@ -25,6 +25,7 @@ $payment     = $_POST['payment-method'] ?? '';
 $nama_lengkap = trim($first_name . ' ' . $last_name);
 $alamat_lengkap = "$nama_lengkap, $address, $subdistrict, $city, $province, $postal_code, Telp: $phone";
 
+// Simpan atau update alamat
 $cek = $conn->prepare("SELECT id FROM alamat WHERE email = ?");
 $cek->bind_param("s", $email);
 $cek->execute();
@@ -39,6 +40,8 @@ if ($result->num_rows > 0) {
     $insert->bind_param("sssssss", $email, $nama_lengkap, $address, $city, $province, $postal_code, $phone);
     $insert->execute();
 }
+
+// Ambil isi keranjang
 $query = "SELECT cart.*, products.name, products.price 
           FROM cart 
           JOIN products ON cart.produk_id = products.id 
@@ -48,20 +51,22 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $cart_items = $stmt->get_result();
 
+// Simpan ke tabel riwayat
 while ($row = $cart_items->fetch_assoc()) {
     $produk = $row['name'];
     $jumlah = $row['jumlah'];
     $harga  = $row['price'];
-    $total  = $jumlah * $harga;
 
-    $insert_order = $conn->prepare("INSERT INTO orders (user_email, tanggal, produk, jumlah, total, alamat, metode_pembayaran, kurir, nama_penerima) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $insert_order->bind_param("sssisssss", $email, $tanggal, $produk, $jumlah, $total, $alamat_lengkap, $payment, $delivery, $nama_lengkap);
-    $insert_order->execute();
+    $insert_riwayat = $conn->prepare("INSERT INTO riwayat (user_id, product_name, quantity, price, status) VALUES (?, ?, ?, ?, 'diproses')");
+    $insert_riwayat->bind_param("isid", $user_id, $produk, $jumlah, $harga);
+    $insert_riwayat->execute();
 }
 
+// Kosongkan keranjang
 $delete_cart = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
 $delete_cart->bind_param("i", $user_id);
 $delete_cart->execute();
 
+// Selesai
 echo "<script>alert('Pesanan berhasil disimpan!'); window.location.href='profile.php';</script>";
 exit();

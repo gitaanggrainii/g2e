@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Riwayat Pembelian</title>
-  <link rel="stylesheet" href="riwayatpembelian.css" />
+  <link rel="stylesheet" href="../css/riwayatpembelian.css" />
   <style>
     body {
       margin: 0;
@@ -123,7 +123,7 @@
     <div class="sidebar">
       <img src="default.png" alt="Foto Profil" class="profile-img" id="sidebarPreview" />
       <input type="file" id="fotoInput" />
-      <a href="profil.php"><button type="button">My Profile</button></a>
+      <a href="profile.php"><button type="button">My Profile</button></a>
       <a href="edit.php"><button type="button">Edit Profile</button></a>
       <a href="riwayat.php"><button type="button">Riwayat Pembelian</button></a>
     </div>

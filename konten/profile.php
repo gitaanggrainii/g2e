@@ -39,7 +39,7 @@ if (isset($_SESSION['users'])) {
      <img src="uploads/profiles/<?php echo htmlspecialchars($user['profile_picture']); ?>" alt="Foto Profil" class="profile-img" id="sidebarPreview">
       <input type="file" id="fotoInput" name="fotoInput">
 
-      <a href="profil.php"><button type="button">My Profile</button></a>
+      <a href="profile.php"><button type="button">My Profile</button></a>
       <a href="edit.php"><button type="button">Edit Profile</button></a>
       <a href="riwayat.php"><button type="button">Riwayat Pembelian</button></a>
 
@@ -128,4 +128,3 @@ if (isset($_SESSION['users'])) {
   </script>
 </body>
 </html>
-  
