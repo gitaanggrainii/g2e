@@ -6,11 +6,12 @@ if (!isset($_SESSION['email']) || !isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
-
+//isi identitas user dan tanggal untuk di simpan ke riwayat
 $user_id = $_SESSION['user_id'];
 $email = $_SESSION['email'];
 $tanggal = date('Y-m-d');
 
+//ambil data dari form pembayaran, tidak ada eror walau field tidak diisi
 $first_name  = $_POST['first_name'] ?? '';
 $last_name   = $_POST['last_name'] ?? '';
 $address     = $_POST['address'] ?? '';
@@ -22,10 +23,11 @@ $phone       = $_POST['phone'] ?? '';
 $delivery    = $_POST['delivery'] ?? '';
 $payment     = $_POST['payment-method'] ?? '';
 
+// gabungin nama dan alamat lengkap jadi satu string
 $nama_lengkap = trim($first_name . ' ' . $last_name);
 $alamat_lengkap = "$nama_lengkap, $address, $subdistrict, $city, $province, $postal_code, Telp: $phone";
 
-// Simpan atau update alamat
+// cek apakah alamat sudah ada
 $cek = $conn->prepare("SELECT id FROM alamat WHERE email = ?");
 $cek->bind_param("s", $email);
 $cek->execute();
@@ -62,11 +64,10 @@ while ($row = $cart_items->fetch_assoc()) {
     $insert_riwayat->execute();
 }
 
-// Kosongkan keranjang
+// menghapus isi keranjang 
 $delete_cart = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
 $delete_cart->bind_param("i", $user_id);
 $delete_cart->execute();
 
-// Selesai
 echo "<script>alert('Pesanan berhasil disimpan!'); window.location.href='profile.php';</script>";
 exit();

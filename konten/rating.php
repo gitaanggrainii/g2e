@@ -53,7 +53,7 @@ $conn->close();
             <a href="makeup.php">MAKEUP</a>
             <a href="skincare.php">SKINCARE</a>
             <a href="haircare.php">HAIRCARE</a>
-            <a href="nails.pho">NAILS</a>
+            <a href="nails.php">NAILS</a>
             <a href="bath&body.php">BATH & BODY</a>
         </nav>
         <section class="B">

@@ -1,8 +1,6 @@
 <?php
 session_start();
 include 'koneksi.php';
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kode = strtoupper(trim($_POST['coupon_code']));
@@ -19,22 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['coupons'] = [];
         }
 
-        if (!isset($_SESSION['user_id'])) {
-            $_SESSION['notif'] = 'Silakan login terlebih dahulu.';
-            header('Location: login.php');
-            exit;
-        }
-
         $user_id = $_SESSION['user_id'];
         $total_belanja = 0;
-
-        // ✅ Ganti quantity → jumlah
         $query_cart = mysqli_query($conn, "
             SELECT c.jumlah, p.price, p.diskon_persen 
             FROM cart c 
             JOIN products p ON c.produk_id = p.id 
             WHERE c.user_id = $user_id
         ");
+
         while ($row = mysqli_fetch_assoc($query_cart)) {
             $harga = $row['price'];
             if ($row['diskon_persen'] > 0) {
@@ -66,6 +57,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: pembayaran.php');
     exit;
 }
-
-
 ?>

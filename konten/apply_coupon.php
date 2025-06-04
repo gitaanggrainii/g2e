@@ -28,7 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = $_SESSION['user_id'];
         $total_belanja = 0;
 
-        // ✅ Ganti quantity → jumlah
         $query_cart = mysqli_query($conn, "
             SELECT c.jumlah, p.price, p.diskon_persen 
             FROM cart c 
