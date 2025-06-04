@@ -1,5 +1,5 @@
 <?php
-$isLoggedIn = isset($_SESSION['user_id']); // Ubah sesuai nama session login kamu
+$isLoggedIn = isset($_SESSION['user_id']); 
 include '../header/header.php'; ?>
     <main class="isi">
         <div class="deskripsi">
@@ -22,39 +22,42 @@ echo '<div style="display: flex; flex-wrap: wrap;">';
 
 while ($row = mysqli_fetch_assoc($result)) {
     echo '<a href="detail_produk.php?id=' . $row['id'] . '" style="text-decoration: none; color: inherit;">';
-    echo '<div class="product-card" style="position: relative;">'; // pastikan position relative agar badge diskon posisi tepat
+    echo '<div class="product-card" style="position: relative;">'; 
     echo '<img src="../img/' . htmlspecialchars($row['image_url']) . '" alt="' . htmlspecialchars($row['name']) . '">';
 
     // Cek promo aktif berdasar tanggal
-    $promoActive = false;
     if (!empty($row['promo_mulai']) && !empty($row['promo_akhir'])) {
         if ($row['promo_mulai'] <= $today && $today <= $row['promo_akhir']) {
             $promoActive = true;
+        } else {
+            $promoActive = false;
         }
+    } else {
+        $promoActive = false;
     }
 
-    // Tampilkan label diskon jika promo aktif dan diskon > 0
     if ($promoActive && !empty($row['diskon_persen']) && intval($row['diskon_persen']) > 0) {
-        echo '<div class="discount-badge" style="position: absolute; background: aliceblue; color: black; padding: 5px; top: 10px; left: 10px; border-radius: 5px; font-size: 12px;">' 
-             . intval($row['diskon_persen']) . '%</div>';
+        echo '<div class="discount-badge" style="position: absolute; background: aliceblue; color: black; padding: 5px; top: 10px; left: 10px; border-radius: 5px; font-size: 12px;">'  . (int)$row['diskon_persen'] . '%</div>';
     }
 
     echo '<div class="favorite-icon">';
     echo '<a href="tambah_favorit.php?product_id=' . $row['id'] . '&redirect=favorit.php" style="color: red; font-size: 20px; text-decoration: none;">♥</a>';
     echo '</div>';
-
     echo '<div class="details">';
     echo '<h4>' . htmlspecialchars($row['name']) . '</h4>';
     echo '<p>' . htmlspecialchars($row['description']) . '</p>';
 
-    // Harga diskon dan harga asli (dicoret) jika promo aktif
+    // Tambahan perhitungan harga_diskon jika belum dihitung
+    if ($promoActive && (empty($row['harga_diskon']) || $row['harga_diskon'] == 0) && intval($row['diskon_persen']) > 0) {
+        $row['harga_diskon'] = $row['price'] - ($row['price'] * $row['diskon_persen'] / 100);
+    }
+
     if ($promoActive && !empty($row['harga_diskon']) && $row['harga_diskon'] < $row['price']) {
         echo '<div class="price">';
         echo '<span style="text-decoration: line-through; color: gray;">Rp ' . number_format($row['price'], 0, ',', '.') . '</span><br>';
         echo 'Rp ' . number_format($row['harga_diskon'], 0, ',', '.') . '';
         echo '</div>';
     } else {
-        // Tidak ada promo aktif, tampilkan harga normal
         echo '<div class="price">Rp ' . number_format($row['price'], 0, ',', '.') . '</div>';
     }
 

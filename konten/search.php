@@ -3,16 +3,11 @@
 session_start();
 include 'koneksi.php';
 
-$search = isset($_GET['q']) ? trim($_GET['q']) : '';
-$result = false;
+$search = isset($_GET['q']) ? trim($_GET['q']) : ''; //ngambil input pencarian
+$result = false; //
 $today = date('Y-m-d');
 
-if (!empty($search)) {
-    if (!isset($_SESSION['search_history'])) {
-        $_SESSION['search_history'] = [];
-    }
-    $_SESSION['search_history'][] = $search;
-
+if (!empty($search)) { // pengecekan apakah variabel nya berisi
     $safe_search = mysqli_real_escape_string($conn, $search);
     $query = "SELECT * FROM products WHERE name LIKE '%$safe_search%' OR description LIKE '%$safe_search%'";
     $result = mysqli_query($conn, $query);
