@@ -3,7 +3,7 @@ session_start();
 include 'koneksi.php';
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
-    exit();
+    exit(); 
 }
 // Jika ada data yang dikirim dari form
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -34,8 +34,7 @@ include '../header//header_keranjang.php';
 
 $user_id = $_SESSION['user_id'];
 
-// Ambil data dari keranjang user
-$query = "SELECT cart.*, products.name, products.price, products.diskon_persen, products.image_url 
+$query = "SELECT cart.*, products.name, products.image_url, products.price, products.id AS product_id 
           FROM cart 
           JOIN products ON cart.produk_id = products.id 
           WHERE cart.user_id = $user_id";

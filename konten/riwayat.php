@@ -19,12 +19,14 @@ $query = "
         r.price,
         r.purchase_date,
         r.status,
+        p.id AS product_id,
         p.image_url
     FROM riwayat r
     LEFT JOIN products p ON r.product_name = p.name
     WHERE r.user_id = $user_id
     ORDER BY r.purchase_date DESC
 ";
+
 $result = mysqli_query($conn, $query);
 ?>
 
@@ -156,14 +158,14 @@ $result = mysqli_query($conn, $query);
       <a href="profile.php"><button type="button">My Profile</button></a>
       <a href="edit.php"><button type="button">Edit Profile</button></a>
       <a href="riwayat.php"><button type="button">Riwayat Pembelian</button></a>
-      <a href="login.php"><button type="button">Logout</button></a>
+      <a href="login.php"><button type="button">Logout</a>
     </div>
 
     <!-- Konten utama -->
    <div class="main-content">
       <div class="header">
         <h2>Riwayat Pembelian</h2>
-        <a href="makeup.php"><button type="button">Kembali</button></a>
+        <button class="back-btn" onclick="alert('Kembali ke profil')">Kembali ke Profil</button>
       </div>
 
       <div class="purchase-history">
@@ -176,12 +178,12 @@ $result = mysqli_query($conn, $query);
           <div class="product-price">Rp <?= number_format($row['price'], 0, ',', '.') ?></div>
         </div>
         <div class="right-side">
-          <div class="status-tracker">📦 <?= ucfirst($row['status']) ?></div>
           <div class="user-actions">
-            <a href="rating.php?product=<?= urlencode($row['product_name']) ?>">
-              <button type="button">Pembelian Selesai</button>
-            </a>
-            <button class="btn-action">Produk Tidak Sampai</button>
+            <a href="rating.php?product_id=<?= $row['product_id'] ?>">
+          <button type="button">Pembelian Selesai</button>
+          </a>
+
+
           </div>
         </div>
       </div>

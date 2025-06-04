@@ -1,274 +1,165 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "g2e");
+include 'koneksi.php';
 
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
+if (!isset($_SESSION['email']) || !isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $product_id = $_POST['product_id'];
-    $rating = $_POST['rating'];
-    $comment = $conn->real_escape_string($_POST['comment']);
+$user_id = $_SESSION['user_id'];
+$product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
 
-    // Ambil user_id dari sesi login
-    if (!isset($_SESSION['user_id'])) {
-        die("Anda harus login terlebih dahulu.");
-    }
-    $user_id = $_SESSION['user_id'];
+if ($product_id <= 0) {
+    die("Produk tidak valid.");
+}
 
-    // Simpan ke database
+// === Proses saat form disubmit ===
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $rating = intval($_POST['rating']);
+    $comment = mysqli_real_escape_string($conn, $_POST['comment']);
+
     $stmt = $conn->prepare("INSERT INTO product_ratings (product_id, user_id, rating, comment) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("iiis", $product_id, $user_id, $rating, $comment);
-    
+
     if ($stmt->execute()) {
-        echo "<script>alert('Terima kasih atas ulasan Anda!'); window.location.href='produk.php';</script>";
+        echo "<script>alert('Terima kasih atas ulasan Anda!'); window.location.href='detail_produk.php?id={$product_id}';</script>";
+        exit;
     } else {
         echo "Gagal menyimpan ulasan: " . $conn->error;
     }
-
-    $stmt->close();
 }
 
-$conn->close();
+// Ambil produk berdasarkan riwayat user
+$query = "
+    SELECT 
+        r.purchase_id,
+        r.product_name,
+        r.quantity,
+        r.price,
+        r.purchase_date,
+        r.status,
+        p.id AS product_id,
+        p.image_url,
+        p.name
+    FROM riwayat r
+    JOIN products p ON r.product_name = p.name
+    WHERE r.user_id = ? AND p.id = ?
+    LIMIT 1
+";
+
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ii", $user_id, $product_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$product = $result->fetch_assoc();
+
+if (!$product || !$product['product_id']) {
+    die("Produk tidak ditemukan atau bukan milik Anda.");
+}
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/rating.css">
+  <meta charset="UTF-8">
+  <title>Rating Produk</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+
+    .produk {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .produk img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 20px;
+    }
+
+    .info {
+      flex: 1;
+    }
+
+    .bintang span {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .komentar textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
+      resize: vertical;
+    }
+
+    .tombol {
+      margin-top: 10px;
+      padding: 10px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .tombol:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
 
-     <header class="logo-web">
-        <div class="nama-web">
-            <a href="start.html"><h1>G2E</h1></a>
+<h1>Rating Produk</h1>
+
+<form action="" method="POST">
+  <input type="hidden" name="rating" class="rating-input" value="0">
+
+  <div class="produk">
+    <img src="../img/<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+    <div class="info">
+      <h3><?= htmlspecialchars($product['name']) ?></h3>
+      <p>Harga: Rp <?= number_format($product['price'], 0, ',', '.') ?></p>
+
+      <div class="rating">
+        <p>Berikan bintang:</p>
+        <div class="bintang">
+          <span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
         </div>
-        <nav class="navbar-menu">
-            <a href="rekomendasi.php">RECOMMENDATION</a>
-            <a href="makeup.php">MAKEUP</a>
-            <a href="skincare.php">SKINCARE</a>
-            <a href="haircare.php">HAIRCARE</a>
-            <a href="nails.php">NAILS</a>
-            <a href="bath&body.php">BATH & BODY</a>
-        </nav>
-        <section class="B">
-          <div class="search-container">
-            <a href="search.html">
-              <img id="search-icon" src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1" />
-              <input id="search-bar" type="text" placeholder="Type to search..." />
-            </a>
-          </div>
-          
-          <div class="profil-container" id="profileContainer">
-            <img id="user-icon" src="https://img.icons8.com/ios/50/user--v1.png" alt="User Icon" />
-            <div class="sub-menu-wrap" id="subMenu">
-              <div class="sub-menu">
-                <hr>
-                <a href="Login.html" class="sub-menu-link">
-                  <img src="login.jpg" width="30">
-                  <p>Login</p>
-                </a> 
-                <a href="profile.html" class="sub-menu-link" onclick="toggleMenu()">
-                  <img src="edit profile.jpg" width="30">
-                  <p>Profile</p>
-                </a>
-                <a href="settings.html" class="sub-menu-link" onclick="toggleMenu()">
-                  <img src="setting.jpg" width="30">
-                  <p>Settings</p>
-                </a>
-                <a href="logout.html" class="sub-menu-link" onclick="toggleMenu()">
-                  <img src="logout.jpg" width="30">
-                  <p>Logout</p>
-                </a>
-                <a href="admin.html" class="sub-menu-link" onclick="toggleMenu()">
-                  <img src="adminpict.png" width="30">
-                  <p>Admin</p>
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- JavaScript untuk Hover -->
-          <script>
+      </div>
 
-  const userIcon = document.getElementById("user-icon");
-  const subMenu = document.getElementById("subMenu");
-  let isMenuPinned = false;
+      <div class="komentar">
+        <p>Komentar:</p>
+        <textarea name="comment" rows="3" placeholder="Tulis komentar..." required></textarea>
+      </div>
 
-  // Tampilkan menu saat hover pertama
-  document.getElementById("profileContainer").addEventListener("mouseenter", () => {
-    if (!isMenuPinned) {
-      subMenu.classList.add("open-menu");
-    }
-  });
-
-  userIcon.addEventListener("click", () => {
-    isMenuPinned = !isMenuPinned;
-    subMenu.classList.toggle("open-menu");
-  });
-
-  
-  function toggleMenu() {
-    isMenuPinned = false;
-    subMenu.classList.remove("open-menu");
-  }
-
-  // JavaScript Rating ke Input Hidden
-const bintangSpan = document.querySelectorAll('#bintangContainer span');
-const ratingInput = document.getElementById('ratingInput');
-
-bintangSpan.forEach((star, index) => {
-    star.addEventListener('click', () => {
-        bintangSpan.forEach(s => s.textContent = '☆');
-        for (let i = 0; i <= index; i++) {
-            bintangSpan[i].textContent = '★';
-        }
-        ratingInput.value = index + 1;
-    });
-});
-
-</script>
-
-          <div class="cart-container">
-            <a href="keranjang.html">
-              <img id="cart-icon" src="https://img.icons8.com/ios/50/online-shop-shopping-bag.png" alt="online-shop-shopping-bag" />
-            </a>
-            <span class="cart-badge">5</span>
-          </div>
-        
-          <div class="favorite-container">
-            <a href="favorit.html">
-              <img src="https://img.icons8.com/ios/50/like--v1.png" alt="like--v1" width="24" height="24" />
-            </a>
-          </div>
-        
-          <div class="edit-container">
-            <a href="editprofile.html">
-              <img id="akun-icon" src="https://img.icons8.com/forma-thin/24/user-male-circle.png" alt="user-male-circle" />
-            </a>
-          </div>
-        </section>
-        
-    </header>
-    <title>Beri Rating Produk</title>
-    <link rel="stylesheet" href="style.css">
-
-      <form action="rating.php" method="POST">
-        <input type="hidden" name="product_id" value="1"> <!-- Sesuaikan ID produk -->
-        <input type="hidden" name="rating" id="ratingInput" value="0">
-
-      <div class="container">
-        <h1>Rating Produk</h1>
-        <hr>
-
-        <!-- Bagian Info Produk -->
-        <div class="produk">
-            <img src="bedak makeover.jpg" alt="Gambar Produk">
-            <div class="info">
-                <h3>Make Over Powerstay</h3>
-                <p>Harga: Rp 180.000</p>
-            </div>
-        </div>
-        
-        <!-- Bagian Rating Bintang -->
-        <div class="rating">
-            <p>Berikan bintang:</p>
-            <div class="bintang">
-                <span>☆</span>
-                <span>☆</span>
-                <span>☆</span>
-                <span>☆</span>
-                <span>☆</span>
-            </div>
-        </div>
-        
-        <!-- Bagian Komentar -->
-        <div class="komentar">
-            <p>Tulis komentar:</p>
-            <textarea rows="4"></textarea>
-        </div>
-        
-        <!-- Tombol Kirim -->
-        <button class="tombol">Kirim Review</button>
+      <button type="submit" class="tombol">Kirim Review</button>
     </div>
+  </div>
+</form>
 
 <script>
-    const bintangSpan = document.querySelectorAll('#bintangContainer span');
-    const ratingInput = document.getElementById('ratingInput');
+  const stars = document.querySelectorAll('.bintang span');
+  const ratingInput = document.querySelector('.rating-input');
 
-    bintangSpan.forEach((star, index) => {
-        star.addEventListener('click', () => {
-            // Reset semua bintang ke kosong
-            bintangSpan.forEach(s => s.textContent = '☆');
-
-            // Isi bintang sampai indeks yang diklik
-            for (let i = 0; i <= index; i++) {
-                bintangSpan[i].textContent = '★';
-            }
-
-            // Simpan nilai rating ke input hidden
-            ratingInput.value = index + 1;
-        });
+  stars.forEach((star, index) => {
+    star.addEventListener('click', () => {
+      stars.forEach((s, i) => {
+        s.textContent = i <= index ? '★' : '☆';
+      });
+      ratingInput.value = index + 1;
     });
+  });
 </script>
-
-
-<div class="footer">
-    <div class="footer-left">
-     <h3>Payment Method</h3>
-
-     <div class="credit-card">
-         <img src="bri.png" alt="">
-         <img src="mandiri.png" alt="">
-         <img src="bca.png" alt="">
-         <img src="visa.png" alt="">    
-         <img src="shopeepay.png" alt="">
-         <img src="ovo.png" alt="">
-         <img src="gopay.png" alt="">
-         <img src="bni.png" alt="">
-         <img src="indomaret.png" alt="">
-    </div>
-    <p class="footer-copyright">beauty store G2E</p>
-  </div>
-
-  <div class="footer-center">
-     <div>
-         <i class="fa fa-map-marker"></i>
-         <p><span>Indonesia</span>JawaBarat, Bandung</p>
-        </div>
-        <div>
-            <i class="fa-regular fa-phone fa-2xs"></i>
-            <p>+62 95-0413-6744</p>
-        </div>
-        <div>
-         <i class="fa fa-envelope"></i>
-         <p><a href="#">G2eBeauty@gmail.com</a></p>
-     </div>
-  </div>
-
-  <div class="footer-right">
-     <p class="footer-about">
-         <span>About Us</span>
-         G2e Beauty Store offers a wide range of products, 
-         including beauty, skincare, and much more!
-         Enjoy shopping here!
-     </p>
-
-     <div class="footer-media">
-         <a href="#"><i class="fa fa-youtube"></i></a>
-         <a href="#"><i class="fa fa-instagram"></i></a>
-         <a href="#"><i class="fa fa-twitter"></i></a>
-     </div>
-  </div>
-</div>
-
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> 
 
 </body>
 </html>
