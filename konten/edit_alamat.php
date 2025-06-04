@@ -16,7 +16,7 @@ $query->execute();
 $result = $query->get_result();
 $data = $result->fetch_assoc();
 
-// Proses update alamat
+// Proses simpan alamat (insert/update)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = $_POST['nama'] ?? '';
     $alamat = $_POST['alamat'] ?? '';
@@ -25,17 +25,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kode_pos = $_POST['kode_pos'] ?? '';
     $telepon = $_POST['telepon'] ?? '';
 
-    $update = $conn->prepare("UPDATE alamat SET nama=?, alamat=?, kota=?, provinsi=?, kode_pos=?, telepon=? WHERE email=?");
-    $update->bind_param("sssssss", $nama, $alamat, $kota, $provinsi, $kode_pos, $telepon, $email);
-    if ($update->execute()) {
-        echo "<script>alert('Alamat berhasil diperbarui!'); window.location.href='pembayaran.php';</script>";
-        exit;
+    if ($data) {
+        // Update jika data sudah ada
+        $update = $conn->prepare("UPDATE alamat SET nama=?, alamat=?, kota=?, provinsi=?, kode_pos=?, telepon=? WHERE email=?");
+        $update->bind_param("sssssss", $nama, $alamat, $kota, $provinsi, $kode_pos, $telepon, $email);
+        if ($update->execute()) {
+            echo "<script>alert('Alamat berhasil diperbarui!'); window.location.href='pembayaran.php';</script>";
+            exit;
+        } else {
+            echo "<script>alert('Gagal memperbarui alamat.');</script>";
+        }
     } else {
-        echo "<script>alert('Gagal memperbarui alamat.');</script>";
+        // Insert jika belum ada data
+        $insert = $conn->prepare("INSERT INTO alamat (email, nama, alamat, kota, provinsi, kode_pos, telepon) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $insert->bind_param("sssssss", $email, $nama, $alamat, $kota, $provinsi, $kode_pos, $telepon);
+        if ($insert->execute()) {
+            echo "<script>alert('Alamat berhasil disimpan!'); window.location.href='pembayaran.php';</script>";
+            exit;
+        } else {
+            echo "<script>alert('Gagal menyimpan alamat.');</script>";
+        }
     }
 }
-var_dump($update->error); // untuk cek kalau ada kesalahan query
-
 ?>
 
 <!DOCTYPE html>
@@ -44,63 +55,15 @@ var_dump($update->error); // untuk cek kalau ada kesalahan query
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Alamat</title>
-    <link rel="stylesheet" href="../css/pembayaran.css">
-    <style>
-      .form-section {
-        max-width: 700px;
-        background: #f4f8fc;
-        margin: 50px auto;
-        padding: 30px;
-        border: 2px solid rgb(177, 196, 212);
-        border-radius: 10px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      }
+    <link rel="stylesheet" href="../css/edit_alamat.css">
 
-      .form-section h2 {
-        color: rgb(51, 120, 180);
-        text-align: center;
-        margin-bottom: 25px;
-      }
-
-      label {
-        display: block;
-        font-weight: 600;
-        margin: 15px 0 5px;
-        color: #2d4b7a;
-      }
-
-      input[type="text"], textarea {
-        width: 100%;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        box-sizing: border-box;
-      }
-
-      button[type="submit"] {
-        margin-top: 25px;
-        background-color: rgb(155, 155, 224);
-        color: black;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        width: 100%;
-        transition: background-color 0.3s;
-      }
-
-      button[type="submit"]:hover {
-        background-color: rgb(51, 120, 180);
-        color: white;
-      }
-    </style>
+    
 </head>
 <body>
 <?php include '../header/header_keranjang.php'; ?>
 
 <div class="form-section">
-    <h2>Edit Alamat Pengiriman</h2>
+    <h2><?= $data ? 'Edit' : 'Isi' ?> Alamat Pengiriman</h2>
     <form method="POST">
         <label for="nama">Nama Lengkap</label>
         <input type="text" id="nama" name="nama" value="<?= htmlspecialchars($data['nama'] ?? '') ?>" required>
@@ -120,7 +83,7 @@ var_dump($update->error); // untuk cek kalau ada kesalahan query
         <label for="telepon">No Telepon</label>
         <input type="text" id="telepon" name="telepon" value="<?= htmlspecialchars($data['telepon'] ?? '') ?>" required>
 
-        <button type="submit">Simpan Perubahan</button>
+        <button type="submit">Simpan</button>
     </form>
 </div>
 

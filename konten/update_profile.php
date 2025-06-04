@@ -38,7 +38,7 @@ if (isset($_SESSION['users'])) {
     $sql .= " WHERE id=$id";
 
     if ($conn->query($sql) === TRUE) {
-        header("Location: profil.php"); // kembali ke halaman profil
+        header("Location: profile.php"); // kembali ke halaman profil
     } else {
         echo "Gagal memperbarui profil: " . $conn->error;
     }

@@ -46,6 +46,7 @@ $reviews = mysqli_query($conn, "
     WHERE pr.product_id = $product_id 
     ORDER BY pr.id DESC
 ");
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -126,10 +127,15 @@ $reviews = mysqli_query($conn, "
             </form>
             <a href="pembayaran.php?buy_now=<?= $product['id'] ?>" class="btn buy-btn" style="text-decoration: none; margin-left: 20px;">Buy Now</a>
         </div>
+
         <form action="favorit.php" method="post">
             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
             <button type="submit" class="wishlist" style="background:none; border:none;">♥</button>
         </form>
+    </div>
+</div>
+
+
     </div>
 </div>
 

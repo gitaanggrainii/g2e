@@ -211,4 +211,3 @@ $result = mysqli_query($conn, $query);
     });
   </script>
 </body>
-</html>
